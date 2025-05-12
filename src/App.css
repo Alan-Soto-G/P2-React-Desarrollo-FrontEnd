@@ -40,8 +40,9 @@
   font-size: 18px;
 }
 #chat-message{
-  position: absolute;
+  position: relative;
   padding: 10px;
+  top: -20%;
 }
 #chat-input{
   position: absolute;
@@ -49,7 +50,7 @@
   top: 350px;
   left: 9px;
   padding: 10px;
-  border-color: #555;
+  border-color: #555; 
   border-radius: 5px;
   font-size: 16px;
   color: #000000;
@@ -72,4 +73,17 @@
 }
 #send-message:active{
   transform: scale(0.9);
+}
+
+.avatar{
+  background-color: #e96868;
+
+  margin: 23%;
+  margin-top: 20%;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  top: -30px;
+  left: 10px;
 }
