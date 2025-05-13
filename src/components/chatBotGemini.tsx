@@ -109,7 +109,6 @@ const ChatBotGemini: React.FC = () => {
     return (
         <div className="chat-container">
             <AnimatePresence>
-                {" "}
                 {/* Animación para mostrar y ocultar el chat*/}
                 {!isOpen &&
                     showOpenButton && ( // Si el chat está cerrado y el botón de abrir el chat está visible
