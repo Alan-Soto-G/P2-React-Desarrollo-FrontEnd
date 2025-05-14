@@ -1,5 +1,5 @@
-import { Driver } from "./Driver"
-import { Motorcycle } from "./Motorcycle"
+import type { Driver } from "./Driver"
+import type { Motorcycle } from "./Motorcycle"
 
 export interface Shift{
     id?: number

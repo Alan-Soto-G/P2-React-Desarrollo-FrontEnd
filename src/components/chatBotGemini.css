@@ -1,0 +1,144 @@
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chat-box {
+  width: 320px;
+  height: 400px;
+  border: 1px solid #ea2a2a;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #000000;
+}
+
+.open-button {
+  background-color: #e96868;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 200px;
+  font-size: 20px;
+  padding: 12px;
+}
+
+.close-button,
+.refresh-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  padding: 4px 8px;
+}
+
+.close-button {
+  right: 10px;
+}
+
+.refresh-button {
+  top: 45px;
+  right: 10px;
+}
+
+.close-button:hover,
+.refresh-button:hover {
+  background-color: #888;
+}
+
+#chat-title {
+  position: relative;
+  color: rgb(0, 0, 0);
+  top: 10px;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.avatar {
+  background-color: #e96868;
+  margin: 23%;
+  margin-top: 20%;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  top: -50px;
+  left: 10px;
+}
+
+.chat-history-box {
+  top: -118px;
+  height: 150px;
+  width: 320px;
+  position: relative;
+  border: none;
+  overflow-y: scroll;
+  background-color: #ffffff;
+}
+
+.chat-history-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-history-box::-webkit-scrollbar-track {
+  background: #555;
+}
+
+.chat-history-box::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.chat-history-box::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Nueva clase contenedora para el formulario */
+.chat-form {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Input del mensaje */
+.chat-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+/* Botón de enviar */
+.send-message {
+  background-color: #e96868;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.send-message:hover {
+  background-color: #4c4848;
+}
+
+.send-message:active,
+.close-button:active,
+.refresh-button:active {
+  transform: scale(0.9);
+}

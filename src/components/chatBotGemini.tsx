@@ -4,6 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import Lottie from "lottie-react";
 import avatarAnimation from "../assets/Avatar-animation.json";
 import Prompt from "../assets/prompt.json";
+import "./chatBotGemini.css";
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY; // Buena práctica para manejar la api key
 const ai = new GoogleGenAI({ apiKey: apiKey }); // Instancia de la clase GoogleGenAI con la API key
@@ -160,20 +161,20 @@ const ChatBotGemini: React.FC = () => {
                                 ))}
                             </div>
                         </div>
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="user-prompt"
-                                id="chat-input"
-                                value={prompt}
-                                onChange={(e) => setPrompt(e.target.value)}
-                                required
-                                minLength={5}
-                            />
-                            <button type="submit" id="send-message">
-                                ᯓ➤
-                            </button>
-                        </form>
+                        <form className="chat-form" onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            name="user-prompt"
+                            className="chat-input"
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                            required
+                            minLength={5}
+                        />
+                        <button type="submit" className="send-message">
+                            ᯓ➤
+                        </button>
+                    </form>
                     </motion.div>
                 )}
             </AnimatePresence>
