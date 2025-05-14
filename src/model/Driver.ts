@@ -1,4 +1,4 @@
-import { Shift } from "./Shift"
+import type { Shift } from "./Shift"
 export interface Driver{
     id?: number
     name?: string
