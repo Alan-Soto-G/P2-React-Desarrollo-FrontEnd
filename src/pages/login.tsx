@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import "../styles/App.css"
+import "../styles/login.css"
 import LogoGoogle from "../assets/google.png"
 import LogoGitHub from "../assets/gitHub.png"
 import LogoMicrosoft from "../assets/microsoft.png"
