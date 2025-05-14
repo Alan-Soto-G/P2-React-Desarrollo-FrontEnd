@@ -1,3 +1,4 @@
+import "../styles/chatBot.css"
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GoogleGenAI } from "@google/genai";

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
 import Home from "./pages/home"
 import ChatBotGemini from "./components/chatBotGemini"
-import './App.css'
+import './styles/App.css'
 
 function App() {
 
@@ -18,4 +18,4 @@ function App() {
     
   )
 }
-export default App
+export default App;
