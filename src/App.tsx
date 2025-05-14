@@ -1,5 +1,5 @@
 import ChatBotGemini from "./components/chatBotGemini"
-import LoginGoogle from './pages/logingoogle/Logingoogle';
+import LoginGoogle from './pages/logingoogle/LoginGoogle';
 
 import './App.css'
 
