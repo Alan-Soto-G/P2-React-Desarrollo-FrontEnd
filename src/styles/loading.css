@@ -10,7 +10,8 @@
     align-items: center;
     display: flex;
     background-color: rgba(0, 0, 0, 0.763);
-    border-radius: 5px;
+    border-radius: 30px;
+    color: white;
 }
 #loading-container {
     background-image: url('../assets/loading.png');

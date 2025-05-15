@@ -140,7 +140,7 @@ const ChatBotGemini: React.FC = () => {
                             <button className="close-button" onClick={handleClose}>
                                 ✖
                             </button>
-                            <button className="refresh-button" onClick={() => {localStorage.setItem("history", ""); setChatHistory([]);}}>
+                            <button className="refresh-button" onClick={() => {localStorage.setItem("history", ""); setChatHistory([]); window.speechSynthesis.cancel(); avatarRef.current?.stop();}}>
                                 ↻
                             </button>
                         </div>
