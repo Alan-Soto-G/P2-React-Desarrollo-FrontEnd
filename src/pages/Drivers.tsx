@@ -1,27 +1,18 @@
+// pages/DriversPage.tsx
 import { useEffect, useState } from 'react';
-import { getDrivers, deleteDriver } from '../services/DriverService';
-import type { Driver } from '../model/Driver';
-import Table from "../components/tableCrud"
+import { getDrivers, deleteDriver, updateDriver } from '../services/DriverService';
+import Table from "../components/tableCrud";
+import EmergentCrud from '../components/emergentCrud';
 
 export default function DriversPage() {
   const [drivers, setDrivers] = useState<any[]>([]);
-
-  const reorderDriverData = (driver: any) => {
-    return {
-      name: driver.name,
-      license_number: driver.license_number,
-      phone: driver.phone,
-      email: driver.email,
-      status: driver.status
-    };
-  };
+  const [driverToEdit, setDriverToEdit] = useState<any | null>(null);
 
   const fetchDrivers = async () => {
     try {
       const data = await getDrivers();
-      const orderedData = data.map(reorderDriverData);
-      setDrivers(orderedData);
-      console.log('Conductores:', orderedData);
+      setDrivers(data);
+      console.log('Conductores:', data);
     } catch (error) {
       console.error('Error al obtener conductores:', error);
     }
@@ -34,11 +25,21 @@ export default function DriversPage() {
     }
   };
 
+  const handleEdit = async (id: number, updatedData: any) => {
+    try {
+      await updateDriver(id, updatedData);
+      setDriverToEdit(null);
+      fetchDrivers();
+    } catch (error) {
+      console.error("Error al editar conductor:", error);
+    }
+  };
+
   useEffect(() => {
     fetchDrivers();
   }, []);
 
-  const headList = ["Nombre", "Licencia", "Teléfono", "Correo", "Estado", "Editar", "Eliminar"]
+  const headList = ["Nombre", "Licencia", "Teléfono", "Correo", "Estado", "Editar", "Eliminar"];
 
   return (
     <div className="drivers-container">
@@ -46,7 +47,29 @@ export default function DriversPage() {
       {drivers.length === 0 ? (
         <p>No hay conductores registrados.</p>
       ) : (
-        <Table HeadList={headList} Content={drivers}/>
+        <Table
+          HeadList={headList}
+          Content={drivers}
+          onEdit={(driver) => setDriverToEdit(driver)}
+          onDelete={handleDelete}
+        />
+      )}
+      {driverToEdit && (
+        <EmergentCrud
+          Title="Editar Conductor"
+          Fields={{
+            name: { type: 'text', placeholder: 'Nombre' },
+            license_number: { type: 'text', placeholder: 'Número de Licencia' },
+            phone: { type: 'text', placeholder: 'Teléfono' },
+            email: { type: 'text', placeholder: 'Correo' },
+            status: { type: 'text', placeholder: 'Estado' }
+          }}
+          TextButton="Actualizar 📝"
+          Edit={handleEdit}
+          Delete={() => {}}
+          handleBackgroundClick={() => setDriverToEdit(null)}
+          DefaultValues={driverToEdit}
+        />
       )}
     </div>
   );
