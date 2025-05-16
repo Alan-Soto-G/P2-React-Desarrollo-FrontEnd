@@ -1,14 +1,27 @@
 import { useEffect, useState } from 'react';
 import { getDrivers, deleteDriver } from '../services/DriverService';
 import type { Driver } from '../model/Driver';
+import Table from "../components/tableCrud"
 
 export default function DriversPage() {
-  const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [drivers, setDrivers] = useState<any[]>([]);
+
+  const reorderDriverData = (driver: any) => {
+    return {
+      name: driver.name,
+      license_number: driver.license_number,
+      phone: driver.phone,
+      email: driver.email,
+      status: driver.status
+    };
+  };
 
   const fetchDrivers = async () => {
     try {
       const data = await getDrivers();
-      setDrivers(data);
+      const orderedData = data.map(reorderDriverData);
+      setDrivers(orderedData);
+      console.log('Conductores:', orderedData);
     } catch (error) {
       console.error('Error al obtener conductores:', error);
     }
@@ -25,38 +38,15 @@ export default function DriversPage() {
     fetchDrivers();
   }, []);
 
+  const headList = ["Nombre", "Licencia", "Teléfono", "Correo", "Estado", "Editar", "Eliminar"]
+
   return (
     <div className="drivers-container">
       <h2>Conductores Registrados</h2>
       {drivers.length === 0 ? (
         <p>No hay conductores registrados.</p>
       ) : (
-        <table className="driver-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Licencia</th>
-              <th>Teléfono</th>
-              <th>Correo</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {drivers.map((d) => (
-              <tr key={d.id}>
-                <td>{d.name}</td>
-                <td>{d.license_number}</td>
-                <td>{d.phone}</td>
-                <td>{d.email}</td>
-                <td>{d.status}</td>
-                <td>
-                  <button onClick={() => handleDelete(d.id!)}>Eliminar</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table HeadList={headList} Content={drivers}/>
       )}
     </div>
   );

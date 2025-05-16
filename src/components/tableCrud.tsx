@@ -4,7 +4,7 @@ import EmergentCrud from '../components/emergentCrud';
 
 interface TableProps {
     HeadList: string[];
-    Content: any[][];
+    Content: { [key: string]: any }[];
 }
 
 const fields = {
@@ -28,6 +28,8 @@ const Table: React.FC<TableProps> = ({ HeadList, Content}) => {
         }
     };
 
+    const keys = Content.length > 0 ? Object.keys(Content[0]) : []
+
     return (
         <div className="table-container">
             <table>
@@ -41,8 +43,8 @@ const Table: React.FC<TableProps> = ({ HeadList, Content}) => {
                 <tbody>
                     {Content.map((row, rowIndex) => (
                         <tr key={rowIndex}>
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex}>{cell}</td>
+                            {keys.map((key, cellIndex) => (
+                                <td key={cellIndex}>{row[key]}</td>
                             ))}
                             <td><button id='edit-button' onClick={() => handleEdit()}>📝</button></td>
                             <td><button id='delete-button' onClick={() => handleEdit()}>🗑️</button></td>
