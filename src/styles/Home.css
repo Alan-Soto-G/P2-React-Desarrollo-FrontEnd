@@ -1,0 +1,39 @@
+/* src/styles/Home.css */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFEDA4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-content {
+    margin-top: 80px; /* para que no quede detrás del navbar */
+  /* el resto ya lo tenías */
+  background-color: #ffffff;
+  margin: 40px auto;
+  padding: 30px;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+  text-align: center;
+}
+
+
+.home-content {
+  padding: 40px;
+  background-color: #ffffff;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.home-content:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}

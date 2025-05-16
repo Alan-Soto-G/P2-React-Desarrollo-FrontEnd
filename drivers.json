@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Carlos Pérez",
+    "license_number": "CP123456",
+    "phone": "3123456789",
+    "email": "carlos.perez@example.com",
+    "status": "available"
+  },
+  {
+    "name": "Laura Gómez",
+    "license_number": "LG654321",
+    "phone": "3134567890",
+    "email": "laura.gomez@example.com",
+    "status": "available"
+  },
+  {
+    "name": "Juan Martínez",
+    "license_number": "JM789012",
+    "phone": "3145678901",
+    "email": "juan.martinez@example.com",
+    "status": "busy"
+  },
+  {
+    "name": "Sofía Rodríguez",
+    "license_number": "SR345678",
+    "phone": "3156789012",
+    "email": "sofia.rodriguez@example.com",
+    "status": "available"
+  }
+]
