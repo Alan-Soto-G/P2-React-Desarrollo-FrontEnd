@@ -13,6 +13,7 @@ export default function NavBar() {
       <div className="nav-links">
         <Link to="/">Inicio</Link>
         <Link to="/conductores">Conductores</Link>
+        <Link to="/motocicletas">Motocicletas</Link> {/* ✅ NUEVO LINK */}
       </div>
 
       {isAuthenticated && user && (
