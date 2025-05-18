@@ -23,13 +23,14 @@ interface EmergentCrudProps { // Props para el componente EmergentCrud
     TextButton: string; // Texto del botón
     EmergentType: number; // Tipo de tarjeta emergente (1: agregar, 2: editar, 3: eliminar)
     initialData?: { [key: string]: string }; // Datos iniciales para editar
+    UpdateTable: () => void; // Función para actualizar la tabla
     Add: (product: any) => void; // Función para agregar un producto
     Edit: (id: string, product: any) => void; // Función para editar un producto
     Delete: (id: string) => void; // Función para eliminar un producto
     handleBackgroundClick: (e: React.MouseEvent) => void; // Maneja el clic fuera de la tarjeta emergente
 }
 
-const EmergentCrud: React.FC<EmergentCrudProps> = ({ Title, Fields, TextButton, EmergentType, Id, Add, Edit, Delete, handleBackgroundClick, initialData }) => {
+const EmergentCrud: React.FC<EmergentCrudProps> = ({ Title, Fields, TextButton, EmergentType, Id, UpdateTable, Add, Edit, Delete, handleBackgroundClick, initialData }) => {
     const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Estado para almacenar los datos del formulario
     const classButton = EmergentType === 1 ? "bg-green" // Cambia el color del botón según el tipo de EmergentCrud
         : EmergentType === 2 ? "bg-blue"
@@ -41,17 +42,28 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({ Title, Fields, TextButton, 
         }
     }, [EmergentType, initialData]);
 
-    const handleSumbit = () => { // Maneja el envío del formulario
-        switch (EmergentType) {
-            case 1:
-                Add(formData);
-                break;
-            case 2:
-                Edit(Id, formData); // Necesitas pasar el ID correcto aquí
-                break;
-            case 3:
-                Delete(Id); // Necesitas pasar el ID correcto aquí
-                break;
+    const handleSumbit = async () => {
+        try {
+            switch (EmergentType) {
+                case 1:
+                    await Add(formData);
+                    break;
+                case 2:
+                    await Edit(Id, formData);
+                    break;
+                case 3:
+                    await Delete(Id);
+                    break;
+            }
+            // Solo actualiza y cierra si la operación fue exitosa
+            UpdateTable();
+            // Opcional: cerrar la ventana emergente después de una operación exitosa
+            if (handleBackgroundClick) {
+                handleBackgroundClick({ target: document.getElementById('emergent-crud'), currentTarget: document.getElementById('emergent-crud') } as any);
+            }
+        } catch (error) {
+            console.error("Error al realizar la operación:", error);
+            // No actualizar la tabla ni cerrar la ventana si hubo un error
         }
     }
 
@@ -66,7 +78,7 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({ Title, Fields, TextButton, 
         <div id="emergent-crud" onClick={handleBackgroundClick}>
             <div id="card">
                 <h1>{Title}</h1>
-                {EmergentType === 1  || EmergentType === 2 ? ( // Agregar o Editar
+                {EmergentType === 1 || EmergentType === 2 ? ( // Agregar o Editar
                     Object.entries(Fields).map(([key, field], index) => ( // Muestra los campos del formulario
                         <div key={index} className="fields">
                             <input

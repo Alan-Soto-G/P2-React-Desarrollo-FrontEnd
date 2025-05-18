@@ -1,74 +1,95 @@
 import { useEffect, useState } from 'react';
-import { getMotorcycles, deleteMotorcycle, updateMotorcycle } from '../services/MotorcycleService';
+import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } from '../services/MotorcycleService';
 import Table from "../components/tableCrud";
-import EmergentCrud from '../components/emergentCrud';
 
-export default function MotorcyclesPage() {
-  const [motorcycles, setMotorcycles] = useState<any[]>([]);
-  const [motorcycleToEdit, setMotorcycleToEdit] = useState<any | null>(null);
+interface Motorcycle {
+  id: number;
+  license_plate: string;
+  brand: string;
+  year: number;
+  status: string;
+};
+
+const dataHeaders = ["Placa", "Marca", "Año", "Estado"];
+const actionHeaders = ["Editar", "Eliminar"];
+const headList = [...dataHeaders, ...actionHeaders];
+const itemsArray = ["license_plate", "brand", "year", "status"];
+
+const MotorcyclesPage: React.FC = () => {
+  const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fields = {
+    license_plate: {
+      type: 'text',
+      placeholder: 'Placa de la motocicleta',
+      validation: {
+        required: true,
+        minLength: 3,
+        maxLength: 10,
+        pattern: '^[A-Z0-9]+$'
+      }
+    },
+    brand: {
+      type: 'text',
+      placeholder: 'Marca de la motocicleta',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 30
+      }
+    },
+    year: {
+      type: 'number',
+      placeholder: 'Año del modelo',
+      validation: {
+        required: true,
+        min: 2000,
+        max: new Date().getFullYear() + 1
+      }
+    },
+    status: {
+      type: 'text',
+      placeholder: 'Estado de la motocicleta',
+      validation: {
+        required: true
+      }
+    }
+  };
 
   const fetchMotorcycles = async () => {
     try {
-      const data = await getMotorcycles();
-      setMotorcycles(data);
-      console.log('Motocicletas:', data);
+      const response = await getMotorcycles();
+      if (response) setMotorcycles(response);
+      setLoading(false);
     } catch (error) {
-      console.error('Error al obtener motocicletas:', error);
+      console.error('Error fetching motorcycles:', error);
+      setLoading(false);
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (confirm('¿Estás seguro de eliminar esta motocicleta?')) {
-      await deleteMotorcycle(id);
-      fetchMotorcycles();
-    }
-  };
-
-  const handleEdit = async (id: number, updatedData: any) => {
-    try {
-      await updateMotorcycle(id, updatedData);
-      setMotorcycleToEdit(null);
-      fetchMotorcycles();
-    } catch (error) {
-      console.error("Error al editar motocicleta:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMotorcycles();
-  }, []);
-
-  const headList = ["Placa", "Marca", "Año", "Estado", "Editar", "Eliminar"];
+  useEffect(() => { fetchMotorcycles() }, []);
+  
+  if (loading) {
+    return <div className="loading-indicator">Loading...</div>;
+  }
 
   return (
     <div className="motorcycles-container">
-      <h2>Motocicletas Registradas</h2>
-      {motorcycles.length === 0 ? (
-        <p>No hay motocicletas registradas.</p>
-      ) : (
-        <Table
-          HeadList={headList}
-          Content={motorcycles}
-          onEdit={(motorcycle) => setMotorcycleToEdit(motorcycle)}
-          onDelete={handleDelete}
-        />
-      )}
-      {motorcycleToEdit && (
-        <EmergentCrud
-          Title="Editar Motocicleta"
-          Fields={{
-            license_plate: { type: 'text', placeholder: 'Placa' },
-            brand: { type: 'text', placeholder: 'Marca' },
-            year: { type: 'number', placeholder: 'Año' },
-            status: { type: 'text', placeholder: 'Estado' }
-          }}
-          TextButton="Actualizar 📝"
-          Edit={handleEdit}
-          Delete={() => {}}
-          handleBackgroundClick={() => setMotorcycleToEdit(null)}
-          DefaultValues={motorcycleToEdit}
-        />
-      )}
+      <h1 id="title-products">Motocicletas</h1>
+      <Table
+        HeadList={headList}
+        ComplementTitle="Motocicleta"
+        Content={motorcycles}
+        Fields={fields}
+        ItemsArray={itemsArray}
+        UpdateTable={fetchMotorcycles}
+        Add={createMotorcycle}
+        Edit={updateMotorcycle}
+        Delete={deleteMotorcycle}
+      />
     </div>
   );
 }
+
+export default MotorcyclesPage;

@@ -9,19 +9,26 @@ table {
     left: 27%;
 }
 
+#title-products {
+    position: relative;
+    font-size: 2em;
+
+    margin-bottom: 20px;
+    color: #000000;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
 .add-button {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     background-color: #4CAF50;
-    color: white;
     padding: 8px 16px;
-    border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-bottom: 20px;
-    font-weight: 600;
     font-size: 16px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

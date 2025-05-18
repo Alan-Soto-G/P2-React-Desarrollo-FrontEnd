@@ -1,34 +1,60 @@
 // services/DriverService.ts
 import axios from 'axios';
-import type { Driver } from '../model/Driver';
 
-const API_URL = 'http://127.0.0.1:5000/drivers';
+const API_URL = import.meta.env.VITE_BACKEND_API + "drivers";
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token'); // o de donde lo estés obteniendo
-  return {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+export const GetDrivers = async () => {
+    try {
+        const response = await axios.get(API_URL);
+        console.log("Data recibida:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error al cargar conductores:", error);
+        alert("Error al cargar conductores");
+        return [];
     }
-  };
 };
 
-export const getDrivers = async (): Promise<Driver[]> => {
-  const response = await axios.get(API_URL, getAuthHeaders());
-  return response.data;
+export const CreateDriver = async (driver: any) => {
+    try {
+        const response = await axios.post(API_URL, driver);
+        console.log("Conductor creado:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear conductor:", error);
+        alert("Error al crear conductor");
+        throw error;
+    }
 };
 
-export const createDriver = async (driver: Driver): Promise<Driver> => {
-  const response = await axios.post(API_URL, driver, getAuthHeaders());
-  return response.data;
+// Modificado para aceptar string como ID
+export const UpdateDriver = async (id: string, driver: any) => {
+    try {
+        // Convertimos el id a número si la API lo requiere
+        const numericId = parseInt(id, 10);
+        
+        const response = await axios.put(`${API_URL}/${numericId}`, driver);
+        console.log("Conductor actualizado:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error al actualizar conductor:", error);
+        alert("Error al actualizar conductor");
+        throw error;
+    }
 };
 
-export const updateDriver = async (id: number, driver: Driver): Promise<Driver> => {
-  const response = await axios.put(`${API_URL}/${id}`, driver, getAuthHeaders());
-  return response.data;
-};
-
-export const deleteDriver = async (id: number): Promise<void> => {
-  await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+// Modificado para aceptar string como ID
+export const DeleteDriver = async (id: string) => {
+    try {
+        // Convertimos el id a número si la API lo requiere
+        const numericId = parseInt(id, 10);
+        
+        const response = await axios.delete(`${API_URL}/${numericId}`);
+        console.log("Conductor eliminado correctamente");
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar conductor:", error);
+        alert("Error al eliminar conductor");
+        throw error;
+    }
 };

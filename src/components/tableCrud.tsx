@@ -27,13 +27,14 @@ interface TableProps { // Props para el componente Table
     Content: { [key: string]: any }[]; // Data que retorna el backend para renderizar en la tabla
     Fields: { [key: string]: FieldConfig }; // Campos para el formulario
     ItemsArray: string[];
+    UpdateTable: () => void; // Función para actualizar la tabla
     Add: (product: any) => void; // Función para agregar un producto
     Edit: (id: string, product: any) => void; // Función para editar un producto
     Delete: (id: string) => void;  // Función para eliminar un producto
 
 }
 
-const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Fields, ItemsArray, Add, Edit, Delete }) => {
+const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Fields, ItemsArray, UpdateTable, Add, Edit, Delete }) => {
 
     const [showEmergent, setShowEmergent] = useState(false); // Estado para mostrar/ocultar la tarjeta emergente
     const [emergentType, setEmergentType] = useState(0); // Estado para el tipo de tarjeta emergente (1: agregar, 2: editar, 3: eliminar)
@@ -125,7 +126,7 @@ const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Field
                             <td>
                                 <button
                                     id='delete-button'
-                                    onClick={() => { handleEmergent(); setEmergentType(3); setTextButton(`Si, Eliminar 🗑️`); setTitleCard(`Eliminar ${ComplementTitle}`) }}
+                                    onClick={() => { setSelectedItem(row); setId(row.id); handleEmergent(); setEmergentType(3); setTextButton(`Si, Eliminar 🗑️`); setTitleCard(`Eliminar ${ComplementTitle}`) }}
                                     onMouseEnter={() => deleteRef.current?.play()} // Reproduce la animación al pasar el mouse
                                     onMouseLeave={() => deleteRef.current?.stop()} // Detiene la animación al salir el mouse
                                 >
@@ -151,6 +152,7 @@ const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Field
                     initialData={selectedItem} // Datos iniciales para editar
                     handleBackgroundClick={handleBackgroundClick} // Maneja el clic fuera de la tarjeta
                     Id={id} // ID del producto seleccionado
+                    UpdateTable={UpdateTable}
                     Add={Add} // Función para agregar un producto
                     Edit={Edit} // Función para editar un producto
                     Delete={Delete} // Función para eliminar un producto
