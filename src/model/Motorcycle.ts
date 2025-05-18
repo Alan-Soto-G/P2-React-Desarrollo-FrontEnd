@@ -1,6 +1,6 @@
-import { Issue } from "./Issue"
-import { Order } from "./Order"
-import { Shift } from "./Shift"
+import type { Issue } from "./Issue"
+import type { Order } from "./Order"
+import type { Shift } from "./Shift"
 
 export interface Motorcycle{
     id ?: number

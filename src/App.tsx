@@ -10,6 +10,9 @@ import Products from "./pages/products";
 //import { DriversList } from "./pages/Driver/DriverList";
 //import { DriverForm } from "./pages/Driver/DriverForm";
 import DriversPage from "./pages/Drivers";
+import ListAddresses from "./pages/Addresses/AddressList";
+import Create from "./pages/Addresses/Create";
+import Update from "./pages/Addresses/Update";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -34,6 +37,14 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/productos" element={<Products />}/>
           <Route path="/conductores" element={<DriversPage />} />
+          <Route path="/direcciones" element={<ListAddresses />} />
+          <Route path="/direcciones/crear" element={<Create />} />
+          <Route path="/direcciones/actualizar" element={<Update />} />
+
+
+          {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
+          {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
+          {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}
         </Routes>
       </Layout>
     </BrowserRouter>

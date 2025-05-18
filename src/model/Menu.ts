@@ -1,6 +1,6 @@
-import { Order } from "./Order"
-import { Product } from "./Product"
-import { Restaurant } from "./Restaurant"
+import type { Order } from "./Order"
+import type { Product } from "./Product"
+import type { Restaurant } from "./Restaurant"
 
 export interface Menu{
     id?: number
