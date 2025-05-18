@@ -9,10 +9,8 @@ import NavBar from "./components/NavBar";
 import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
-import ChartsPage from "./pages/ChartPage"; // ⬅️ Nuevo import
-import Customer from "./pages/Customer";
-import Address  from "./pages/Address";
-import Order from "./pages/Order";
+import ChartsPage from "./pages/ChartPage";
+import { AuthProvider } from "./context/AuthContext";
 
 
 
@@ -33,33 +31,22 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/productos" element={<Products />} />
-          <Route path="/conductores" element={<DriversPage />} />
-          <Route path="/graficos" element={<ChartsPage />} />
-          <Route path="/motocicletas" element={<MotorcyclesPage />} />
-          <Route path="/clientes" element={<Customer />} />
-          <Route path="/direcciones" element={<Address />} />
-          <Route path="/ordenes" element={<Order />} />
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/productos" element={<Products />} />
+            <Route path="/conductores" element={<DriversPage />} />
+            <Route path="/graficos" element={<ChartsPage />} />
+            <Route path="/motocicletas" element={<MotorcyclesPage />} />
 
-
-
-
-
-
-
-
-
-          
-
-          {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
-          {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
-          {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}
-        </Routes>
-      </Layout>
+            {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
+            {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
+            {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

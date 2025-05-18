@@ -23,7 +23,7 @@ const itemsArray = ["id", "name", "category", "price", "description", "created_a
 const Products: React.FC = () => {
     // Estados para almacenar los productos y el estado de carga
     const [content, setContent] = useState<Product[]>([]);
-    const [loading, setLoading] = useState<boolean>(true); 
+    const [loading, setLoading] = useState<boolean>(true);
 
     // Configuración de campos para el formulario
     const fields = {
@@ -66,21 +66,19 @@ const Products: React.FC = () => {
         }
     };
 
-    // Cargar datos de productos
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const result = await GetProducts();
-                if (result) setContent(result);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchProducts = async () => {
+        try {
+            const result = await GetProducts();
+            if (result) setContent(result);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchProducts();
-    }, []);
+    // Cargar datos de productos
+    useEffect(() => { fetchProducts() }, []);
 
     if (loading) {
         return <div className="loading-indicator">Loading...</div>;
@@ -88,13 +86,14 @@ const Products: React.FC = () => {
 
     return (
         <div className="products-container">
-            <h1>Gestión de Productos</h1>
+            <h1 id='title-products'>Gestión de Productos</h1>
             <Table
                 HeadList={headList}
                 ComplementTitle='Producto'
                 Content={content}
                 Fields={fields}
                 ItemsArray={itemsArray}
+                UpdateTable={fetchProducts}
                 Add={CreateProduct}
                 Edit={EditProduct}
                 Delete={DeleteProduct}
