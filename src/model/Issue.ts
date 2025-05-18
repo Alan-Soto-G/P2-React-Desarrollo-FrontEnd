@@ -1,5 +1,6 @@
-import { Motorcycle } from "./Motorcycle"
-import { Photo } from "./Photo"
+import type { Motorcycle } from "./Motorcycle"
+import type { Photo } from "./Photo"
+
 
 export interface Issue{
     id?: number
