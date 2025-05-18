@@ -1,3 +1,4 @@
+import axios from 'axios';
 const API_URL = import.meta.env.VITE_BACKEND_API + "products";
 
 export const GetProducts = async () => {
@@ -14,15 +15,8 @@ export const GetProducts = async () => {
         const data = await response.json(); // data es el array de productos
         console.log("Data recibida:", data);
 
-        const mappedContent = data.map((product: any) => [
-            product.id.toString(),
-            product.name,
-            product.category,
-            product.price.toString(),
-            product.description,
-            new Date(product.created_at).toLocaleString()
-        ]);
-        return(mappedContent);
+       
+        return(data);
     } catch (error) {
         console.error("Error al cargar productos:", error);
         alert(":C")

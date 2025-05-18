@@ -24,7 +24,7 @@ html, body {
 }
 
 /* Tarjeta de login */
-#card {
+#card-login {
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 16px;
     padding: 40px 20px;
@@ -108,7 +108,7 @@ html, body {
 
 /* Pantallas medianas: tablets */
 @media screen and (max-width: 768px) {
-    #card {
+    #card-login {
         padding: 30px 15px;
     }
 
@@ -140,7 +140,7 @@ html, body {
 
 /* Pantallas pequeñas: móviles */
 @media screen and (max-width: 480px) {
-    #card {
+    #card-login {
         padding: 20px 10px;
     }
 
