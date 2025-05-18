@@ -13,6 +13,11 @@ import ChartsPage from "./pages/ChartPage"; // ⬅️ Nuevo import
 import ListAddresses from "./pages/Addresses/AddressList";
 import Create from "./pages/Addresses/Create";
 import Update from "./pages/Addresses/Update";
+import ListCustomers from "./pages/Customers/CustomerList";
+import CreateC from "./pages/Customers/CreateC";
+import UpdateC from "./pages/Customers/UpdateC";
+
+
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -42,7 +47,15 @@ function App() {
           <Route path="/direcciones" element={<ListAddresses />} />
           <Route path="/direcciones/crear" element={<Create />} />
           <Route path="/direcciones/actualizar" element={<Update />} />
+          <Route path="/clientes" element={<ListCustomers />} />
+          <Route path="/clientes/crear" element={<CreateC />} />
+          <Route path="/clientes/actualizar" element={<UpdateC />} />
 
+
+
+
+
+          
 
           {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
           {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}

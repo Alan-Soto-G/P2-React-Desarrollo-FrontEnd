@@ -1,13 +1,14 @@
 import axios from "axios"
-import type { Address } from "../model/Address"
+import type { Customer } from "../model/Customer"
 
-const API_URL = import.meta.env.VITE_BACKEND_API + "addresses";
+const API_URL = import.meta.env.VITE_BACKEND_API + "customers";
 
-export const getAddresses = async (): Promise<Address[]> => {
+
+export const getCustomers = async (): Promise<Customer[]> => {
     console.log("aqui "+API_URL)
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Error al obtener las direcciones");
+        if (!response.ok) throw new Error("Error al obtener los clientes");
         return await response.json();
     } catch (error) {
         console.error(error);
@@ -16,10 +17,10 @@ export const getAddresses = async (): Promise<Address[]> => {
 };
 
 
-export const getAddressById = async (id: number): Promise<Address | null> => {
+export const getCustomerById = async (id: number): Promise<Customer | null> => {
     try {
         const response = await fetch(`${API_URL}/${id}`);
-        if (!response.ok) throw new Error("Dirección no encontrado");
+        if (!response.ok) throw new Error("Cliente no encontrado");
         return await response.json();
     } catch (error) {
         console.error(error);
@@ -27,15 +28,15 @@ export const getAddressById = async (id: number): Promise<Address | null> => {
     }
 };
 
-// Crear un nuevo usuario
-export const createAddress = async (address: Omit<Address, "id">): Promise<Address | null> => {
+
+export const createCustomer = async (customer: Omit<Customer, "id">): Promise<Customer | null> => {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(address),
+            body: JSON.stringify(customer),
         });
-        if (!response.ok) throw new Error("Error al crear dirección");
+        if (!response.ok) throw new Error("Error al crear cliente");
         return await response.json();
     } catch (error) {
         console.error(error);
@@ -43,15 +44,15 @@ export const createAddress = async (address: Omit<Address, "id">): Promise<Addre
     }
 };
 
-// Actualizar usuario
-export const updateAddress = async (id: number, address: Partial<Address>): Promise<Address | null> => {
+
+export const updateCustomer = async (id: number, customer: Partial<Customer>): Promise<Customer | null> => {
     try {
         const response = await fetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(address),
+            body: JSON.stringify(customer),
         });
-        if (!response.ok) throw new Error("Error al actualizar dirección");
+        if (!response.ok) throw new Error("Error al actualizar cliente");
         return await response.json();
     } catch (error) {
         console.error(error);
@@ -59,11 +60,11 @@ export const updateAddress = async (id: number, address: Partial<Address>): Prom
     }
 };
 
-// Eliminar usuario
-export const deleteAddress = async (id: number): Promise<boolean> => {
+
+export const deleteCustomer = async (id: number): Promise<boolean> => {
     try {
         const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-        if (!response.ok) throw new Error("Error al eliminar dirección");
+        if (!response.ok) throw new Error("Error al eliminar cliente");
         return true;
     } catch (error) {
         console.error(error);

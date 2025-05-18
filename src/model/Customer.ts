@@ -1,6 +1,5 @@
 import type { Order } from "./Order"
 
-
 export interface Customer{
     id?: number
     name?: string 
