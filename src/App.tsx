@@ -7,9 +7,9 @@ import Home from "./pages/home";
 import ChatBotGemini from "./components/chatBotGemini";
 import NavBar from "./components/NavBar";
 import Products from "./pages/products";
-//import { DriversList } from "./pages/Driver/DriverList";
-//import { DriverForm } from "./pages/Driver/DriverForm";
 import DriversPage from "./pages/Drivers";
+import MotorcyclesPage from "./pages/motorcycles";
+import ChartsPage from "./pages/ChartPage"; // ⬅️ Nuevo import
 import ListAddresses from "./pages/Addresses/AddressList";
 import Create from "./pages/Addresses/Create";
 import Update from "./pages/Addresses/Update";
@@ -18,7 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const { isLoading } = useAuth0();
   const hideHeaderAndChat = location.pathname === "/" || isLoading;
-  
+
   return (
     <>
       {!hideHeaderAndChat && <NavBar />}
@@ -35,8 +35,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/productos" element={<Products />}/>
+          <Route path="/productos" element={<Products />} />
           <Route path="/conductores" element={<DriversPage />} />
+          <Route path="/graficos" element={<ChartsPage />} />
+          <Route path="/motocicletas" element={<MotorcyclesPage />} />
           <Route path="/direcciones" element={<ListAddresses />} />
           <Route path="/direcciones/crear" element={<Create />} />
           <Route path="/direcciones/actualizar" element={<Update />} />

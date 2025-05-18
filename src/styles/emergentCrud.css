@@ -3,18 +3,162 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-#card {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    min-width: 300px;
+#icon-danger-delete {
+    position: relative;
+    width: 100%;
+    min-height: 180px;  /* Reducido para más compacto */
+    display: flex;
+    justify-content: center;  /* Cambiado a center */
+    align-items: center;
+    padding: 10px;  /* Reducido de 20px */
+    background: transparent;
+    flex-direction: column;
+    left: -10px;
 }
 
+#icon-danger-delete > div {
+    width: 120px !important;  /* Reducido tamaño de la animación */
+    height: 120px !important;
+    margin-bottom: 15px;  /* Reducido espacio */
+}
+
+#text-alert {
+    font-size: 1.1em;  /* Reducido de 1.2em */
+    color: #333;
+    text-align: center;
+    margin: 10px 0;  /* Reducido de 20px */
+    padding: 0 15px;
+    font-weight: 500;
+}
+
+#card {
+    background: white;
+    padding: 20px;  /* Reducido de 30px */
+    border-radius: 8px;  /* Reducido de 12px */
+    min-width: 300px;  /* Reducido de 350px */
+    max-width: 400px;  /* Reducido de 450px */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  /* Reducido de 20px */
+    animation: slideIn 0.3s ease-out;
+}
+
+#card h1 {
+    margin-bottom: 5px;  /* Reducido de 10px */
+    color: #333;
+    font-size: 1.3em;  /* Reducido de 1.5em */
+}
+
+#card button {
+    margin: 15px auto;  /* Cambiado: auto en los lados para centrar */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9em;
+    max-width: 150px;
+    display: block;  /* Añadido: para que respete el margin auto */
+}
+
+#card button:active{
+    transform: scale(0.95);
+}
+
+.fields {
+    margin: 8px 0;  /* Reducido de 10px */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.fields input {
+    width: 85%;  /* Reducido de 90% */
+    padding: 8px;  /* Reducido de 12px */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;  /* Reducido de 14px */
+    transition: all 0.3s ease;
+}
+
+.fields input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+.bg-blue{
+    background-color: rgb(48, 148, 220);
+}
+
+.bg-green{
+    background-color: #4CAF50;
+}
+
+.bg-red{
+    background-color: #ff4444;
+}
+
+.bg-blue:hover,
+.bg-green:hover,
+.bg-red:hover {
+    transform: scale(1.05);
+}
+
+.bg-blue:hover{background-color: #0475ff;}
+.bg-green:hover{background-color: #1de124;}
+.bg-red:hover{background-color: #ff0101;}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para inputs inválidos */
+.fields input:invalid {
+    border-color: #ff4444;
+}
+
+/* Estilos para inputs con error */
+.fields input.error {
+    border-color: #ff4444;
+    background-color: rgba(255, 68, 68, 0.05);
+}
+
+/* Mensaje de error */
+.error-message {
+    color: #ff4444;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #card {
+        min-width: 280px;  /* Reducido de 300px */
+        margin: 15px;  /* Reducido de 20px */
+        padding: 15px;  /* Reducido de 20px */
+    }
+
+    .fields input {
+        width: 95%;
+    }
+}

@@ -9,7 +9,7 @@ export default function Login() {
 
     return (
         <div id="login-container">
-            <div id="card">
+            <div id="card-login">
                 <div id="tittle">
                     <img src=".././public/logo.png" alt="logo" id="logo"/>
                     <h1 id="tittle-h">El Antojito</h1>
