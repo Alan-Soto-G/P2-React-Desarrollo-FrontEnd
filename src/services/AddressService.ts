@@ -1,75 +1,65 @@
-import axios from "axios"
-import type { Address } from "../model/Address"
+import axios from "axios";
+import type { Address } from "../model/Address";
 
 const API_URL = import.meta.env.VITE_BACKEND_API + "addresses";
 
-export const getAddresses = async (): Promise<Address[]> => {
-    console.log("aqui "+API_URL)
+// Obtener todas las direcciones
+export const GetAddresses = async () => {
+    console.log("aqui " + API_URL);
     try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Error al obtener las direcciones");
-        return await response.json();
+        const response = await axios.get(API_URL);
+        return response.data;
     } catch (error) {
         console.error(error);
         return [];
     }
 };
 
-
-export const getAddressById = async (id: number): Promise<Address | null> => {
+// Obtener dirección por ID
+export const GetAddressById = async (id: number): Promise<Address | null> => {
     try {
-        const response = await fetch(`${API_URL}/${id}`);
-        if (!response.ok) throw new Error("Dirección no encontrado");
-        return await response.json();
+        const response = await axios.get<Address>(`${API_URL}/${id}`);
+        return response.data;
     } catch (error) {
         console.error(error);
         return null;
     }
 };
 
-// Crear un nuevo usuario
-export const createAddress = async (address: Omit<Address, "id">): Promise<Address | null> => {
+// Crear nueva dirección
+export const CreateAddress = async (
+    address: Omit<Address, "id">
+): Promise<Address | null> => {
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(address),
-        });
-        if (!response.ok) throw new Error("Error al crear dirección");
-        return await response.json();
+        const response = await axios.post<Address>(API_URL, address);
+        return response.data;
     } catch (error) {
         console.error(error);
         return null;
     }
 };
 
-// Actualizar usuario
-export const updateAddress = async (id: number, address: Partial<Address>): Promise<Address | null> => {
+// Actualizar dirección
+export const EditAddress = async (
+    id: string,
+    address: Partial<Address>
+): Promise<Address | null> => {
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(address),
-        });
-        if (!response.ok) throw new Error("Error al actualizar dirección");
-        return await response.json();
+        const response = await axios.put<Address>(`${API_URL}/${id}`, address);
+        return response.data;
     } catch (error) {
         console.error(error);
         return null;
     }
 };
 
-// Eliminar usuario
-export const deleteAddress = async (id: number): Promise<boolean> => {
+// Eliminar dirección
+export const DeleteAddress = async (id: string): Promise<boolean> => {
     try {
-        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-        if (!response.ok) throw new Error("Error al eliminar dirección");
+        await axios.delete(`${API_URL}/${id}`);
         return true;
     } catch (error) {
         console.error(error);
         return false;
     }
 };
-
-
-

@@ -10,12 +10,9 @@ import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage"; // ⬅️ Nuevo import
-import ListAddresses from "./pages/Addresses/AddressList";
-import Create from "./pages/Addresses/Create";
-import Update from "./pages/Addresses/Update";
-import ListCustomers from "./pages/Customers/CustomerList";
-import CreateC from "./pages/Customers/CreateC";
-import UpdateC from "./pages/Customers/UpdateC";
+import Customer from "./pages/Customer";
+import Address  from "./pages/Address";
+import Order from "./pages/Order";
 
 
 
@@ -44,12 +41,13 @@ function App() {
           <Route path="/conductores" element={<DriversPage />} />
           <Route path="/graficos" element={<ChartsPage />} />
           <Route path="/motocicletas" element={<MotorcyclesPage />} />
-          <Route path="/direcciones" element={<ListAddresses />} />
-          <Route path="/direcciones/crear" element={<Create />} />
-          <Route path="/direcciones/actualizar" element={<Update />} />
-          <Route path="/clientes" element={<ListCustomers />} />
-          <Route path="/clientes/crear" element={<CreateC />} />
-          <Route path="/clientes/actualizar" element={<UpdateC />} />
+          <Route path="/clientes" element={<Customer />} />
+          <Route path="/direcciones" element={<Address />} />
+          <Route path="/ordenes" element={<Order />} />
+
+
+
+
 
 
 
