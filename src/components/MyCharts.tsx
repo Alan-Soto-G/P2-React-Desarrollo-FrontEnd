@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import axios from 'axios';
-import '../styles/MyCharts.css'; 
+import '../styles/MyCharts.css';
 
 const MyCharts = () => {
   const [chartData, setChartData] = useState<any>(null);
+
+  const transformData = (rawData: any) => {
+    const bar = {
+      categories: rawData.PedidosCompletadosPorDia.map((item: any) => item.fecha),
+      series: rawData.PedidosCompletadosPorDia.map((item: any) => item.pedidos)
+    };
+
+    const line = {
+      categories: rawData.IncidentesUltimoMes.map((item: any) => item.fecha),
+      series: rawData.IncidentesUltimoMes.map((item: any) => item.incidentes)
+    };
+
+    const pie = {
+      labels: rawData.TurnosTrabajados.map((item: any) => item.conductor),
+      series: rawData.TurnosTrabajados.map((item: any) => item.turnos)
+    };
+
+    return { bar, line, pie };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('https://00ddc1a2-2d37-4e94-9ea3-5c928a127f47.mock.pstmn.io/charts/data');
-        setChartData(res.data);
+        const res = await axios.get('https://14ef02db-5750-4018-97d6-12f39b2b2f08.mock.pstmn.io/charts/data');
+        const transformed = transformData(res.data);
+        setChartData(transformed);
       } catch (error) {
         console.error('Error al obtener datos del mock:', error);
       }
@@ -26,27 +47,27 @@ const MyCharts = () => {
 
   const barOptions = {
     chart: { type: 'bar' as const },
-    title: { text: 'Gráfico de Barras' },
-    xaxis: { categories: chartData.bar?.categories || [] },
+    title: { text: 'Pedidos Completados por Día' },
+    xaxis: { categories: chartData.bar.categories }
   };
 
-  const barSeries = [{ name: 'Ventas', data: chartData.bar?.series || [] }];
+  const barSeries = [{ name: 'Pedidos', data: chartData.bar.series }];
 
   const lineOptions = {
     chart: { type: 'line' as const },
-    title: { text: 'Gráfico de Líneas' },
-    xaxis: { categories: chartData.line?.categories || [] },
+    title: { text: 'Incidentes en el Último Mes' },
+    xaxis: { categories: chartData.line.categories }
   };
 
-  const lineSeries = [{ name: 'Ganancias', data: chartData.line?.series || [] }];
+  const lineSeries = [{ name: 'Incidentes', data: chartData.line.series }];
 
   const pieOptions = {
     chart: { type: 'pie' as const },
-    labels: chartData.pie?.labels || [],
-    title: { text: 'Gráfico de Torta' },
+    labels: chartData.pie.labels,
+    title: { text: 'Turnos Trabajados por Conductor' }
   };
 
-  const pieSeries = chartData.pie?.series || [];
+  const pieSeries = chartData.pie.series;
 
   return (
     <div className="my-charts-container">
