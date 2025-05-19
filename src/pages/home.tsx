@@ -1,6 +1,6 @@
 // src/pages/Home.tsx
 import { useAuth0 } from "@auth0/auth0-react";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 import '../styles/Home.css';
 
 export default function Home() {

@@ -10,13 +10,13 @@ import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage";
-import Restaurants from "./pages/restaurants";
+import Restaurants from "./pages/Restaurants";
 import { AuthProvider } from "./context/AuthContext";
 import Customer from "./pages/Customer";
 import Address  from "./pages/Address";
 import Order from "./pages/Order";
 import Shift  from "./pages/Shift";
-
+import Menus from "./pages/Menu";
 
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -50,7 +50,7 @@ function App() {
             <Route path="/direcciones" element={<Address />} />
             <Route path="/ordenes" element={<Order />} />
             <Route path="/turnos" element={<Shift />} />
-
+            <Route path="/menus" element={<Menus />} />
             {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}
