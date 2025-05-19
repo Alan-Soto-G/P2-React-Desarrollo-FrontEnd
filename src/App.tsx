@@ -12,6 +12,10 @@ import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage";
 import Restaurants from "./pages/restaurants";
 import { AuthProvider } from "./context/AuthContext";
+import Customer from "./pages/Customer";
+import Address  from "./pages/Address";
+import Order from "./pages/Order";
+import Shift  from "./pages/Shift";
 
 
 
@@ -42,6 +46,11 @@ function App() {
             <Route path="/graficos" element={<ChartsPage />} />
             <Route path="/motocicletas" element={<MotorcyclesPage />} />
             <Route path="/restaurantes" element={<Restaurants />} />
+            <Route path="/clientes" element={<Customer />} />
+            <Route path="/direcciones" element={<Address />} />
+            <Route path="/ordenes" element={<Order />} />
+            <Route path="/turnos" element={<Shift />} />
+
             {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}

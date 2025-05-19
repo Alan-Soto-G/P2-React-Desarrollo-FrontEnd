@@ -1,0 +1,32 @@
+.my-charts-container {
+  position: relative;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  height: calc(100vh - 60px); /* Ajusta según altura real de tu navbar */
+  width: 140%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-wrapper {
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 1000px; /* Ajusta el ancho máximo si deseas centrar contenido */
+}
+
+/* Títulos grandes y claros */
+.apexcharts-title-text {
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  fill: #333 !important;
+  text-anchor: start !important;
+}
+
+/* Texto de ejes */
+.apexcharts-xaxis text,
+.apexcharts-yaxis text {
+  font-size: 1.1rem;
+}

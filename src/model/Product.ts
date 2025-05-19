@@ -1,4 +1,4 @@
-import { Menu } from "./Menu"
+import type { Menu } from "./Menu"
 
 export interface Product{
     id?: number
