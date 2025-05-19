@@ -28,6 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         { path: '/direcciones', icon: '📍', label: 'Direcciones' },
         { path: '/menus', icon: '📜', label: 'Menús' },
         { path: '/turnos', icon: '🕒', label: 'Turnos' },
+        { path: '/fotos', icon: '📷', label: 'Fotos' },
         { path: '/inconvenientes', icon: '⚠️', label: 'Inconvenientes' },
         { path: '/mapa', icon: '🗺️', label: 'Mapa' },
         { path: '/graficos', icon: '📊', label: 'Gráficos' }

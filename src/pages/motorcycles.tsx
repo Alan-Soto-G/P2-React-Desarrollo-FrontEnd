@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } from '../services/MotorcycleService';
+import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } from '../services/MotorcycleService.ts';
 import Table from "../components/tableCrud";
 
 interface Motorcycle {
@@ -44,7 +44,7 @@ const MotorcyclesPage: React.FC = () => {
       placeholder: 'Año del modelo',
       validation: {
         required: true,
-        min: 2000,
+        min:190,
         max: new Date().getFullYear() + 1
       }
     },
@@ -75,7 +75,7 @@ const MotorcyclesPage: React.FC = () => {
   }
 
   return (
-    <div className="motorcycles-container">
+    <div className="table-container">
       <h1 id="title-products">Motocicletas</h1>
       <Table
         HeadList={headList}

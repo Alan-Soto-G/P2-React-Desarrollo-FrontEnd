@@ -84,7 +84,7 @@ const DriversPage:React.FC = () => {
   }
 
   return (
-    <div className="drivers-container">
+    <div className="table-container">
       <Table
         HeadList={headList}
         ComplementTitle="Conductor"

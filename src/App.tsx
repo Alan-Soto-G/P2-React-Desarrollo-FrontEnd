@@ -15,10 +15,10 @@ import Restaurants from "./pages/Restaurants";
 import Customer from "./pages/Customer";
 import Address from "./pages/Address";
 import Order from "./pages/Order";
-import Shift from "./pages/Shift";
 import Menus from "./pages/Menu";
 import Issue from "./pages/Issue";
 import PedidosMapa from "./pages/MapView";
+import Shifts from "./pages/Shifts"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -71,9 +71,9 @@ function App() {
             <Route path="/direcciones" element={<Address />} />
             <Route path="/ordenes" element={<Order />} />
             <Route path="/menus" element={<Menus />} />
-            <Route path="/turnos" element={<Shift />} />
             <Route path="/inconvenientes" element={<Issue />} />
             <Route path="/mapa" element={<PedidosMapa />} />
+            <Route path="/turnos" element={<Shifts />} />
           </Routes>
         </Layout>
         <ToastContainer />

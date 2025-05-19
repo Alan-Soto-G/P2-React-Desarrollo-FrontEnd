@@ -18,7 +18,8 @@ export default function NavBar() {
   return (
     <nav className="custom-navbar">
       <div className="navbar-left">
-        <Link to="/home" className="logo">🍽️ FoodExpress</Link>
+        <Link to="/home" className="logo"><img id="logo-navbar" src="../../public/logo.png" alt="logo antojito" /> El Antojito</Link>
+        {/* Los links se han movido al sidebar */}
       </div>
 
       {isAuthenticated && user && (

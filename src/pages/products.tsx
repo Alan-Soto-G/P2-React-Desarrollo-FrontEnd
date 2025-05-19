@@ -85,7 +85,7 @@ const Products: React.FC = () => {
     }
 
     return (
-        <div className="products-container">
+        <div className="table-container">
             <h1 id='title-products'>Gestión de Productos</h1>
             <Table
                 HeadList={headList}
