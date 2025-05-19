@@ -10,14 +10,14 @@ import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage";
-import Restaurants from "./pages/restaurants";
+import Restaurants from "./pages/Restaurants";
 import { AuthProvider } from "./context/AuthContext";
 import Customer from "./pages/Customer";
 import Address  from "./pages/Address";
 import Order from "./pages/Order";
 import Shift  from "./pages/Shift";
 import Issue from "./pages/Issue";
-import PedidosPage from "./pages/PedidosPages";
+import PedidosMapa from "./pages/MapView";
 
 
 
@@ -53,7 +53,7 @@ function App() {
             <Route path="/ordenes" element={<Order />} />
             <Route path="/turnos" element={<Shift />} />
             <Route path="/inconvenientes" element={<Issue/>} />
-            <Route path="/mapa" element={<PedidosPage/>} />
+            <Route path="/mapa" element={<PedidosMapa/>} />
           </Routes>
         </Layout>
       </AuthProvider>
