@@ -14,6 +14,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Customer from "./pages/Customer";
 import Address  from "./pages/Address";
 import Order from "./pages/Order";
+import Shift  from "./pages/Shift";
 
 
 
@@ -46,7 +47,7 @@ function App() {
             <Route path="/clientes" element={<Customer />} />
             <Route path="/direcciones" element={<Address />} />
             <Route path="/ordenes" element={<Order />} />
-            
+            <Route path="/turnos" element={<Shift />} />
 
             {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}

@@ -1,48 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Table from "../components/tableCrud";
 import {
-  GetOrders,
-  CreateOrder,
-  EditOrder,
-  DeleteOrder,
-} from "../services/OrderService";
+  GetShifts,
+  CreateShift,
+  EditShift,
+  DeleteShift,
+} from "../services/ShiftService";
 
-interface Order {
+interface Shift {
   id: number;
-  quantify: number;
-  total_price: number;
+  start_time: Date;
+  end_time: Date;
   status: string;
 }
 
 // Separación entre columnas de datos y acciones
-const dataHeaders = ["ID", "Quantity", "Total Price", "Status"];
+const dataHeaders = ["ID", "Start Time", "End Time", "Status"];
 const actionHeaders = ["Edit", "Delete"];
 const headList = [...dataHeaders, ...actionHeaders];
 
 // Propiedades que se muestran en la tabla (excluyendo acciones)
-const itemsArray = ["id", "quantify", "total_price", "status"];
+const itemsArray = ["id", "start_time", "end_time", "status"];
 
 const Shifts: React.FC = () => {
-  const [content, setContent] = useState<Order[]>([]);
+  const [content, setContent] = useState<Shift[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fields = {
-    quantity: {
-      type: "number",
-      placeholder: "Cantidad",
+    start_time: {
+      type: "date",
+      placeholder: "Fecha de inicio",
       validation: {
         required: true,
-        min: 1,
-        max: 10000, // Puedes ajustar este límite según tus necesidades
       },
     },
-    totalPrice: {
-      type: "number",
-      placeholder: "Precio total",
+    end_time: {
+      type: "date",
+      placeholder: "Fecha de finalización",
       validation: {
         required: true,
-        min: 0.01,
-        max: 1000000, // Ajusta según el máximo permitido
       },
     },
     status: {
@@ -52,13 +48,14 @@ const Shifts: React.FC = () => {
         required: true,
         minLength: 3,
         maxLength: 20,
-        pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", // Letras con tildes y espacios
+        pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", // Solo letras con tildes y espacios
       },
     },
   };
-  const fetchOrders = async () => {
+
+  const fetchShifts = async () => {
     try {
-      const result = await GetOrders();
+      const result = await GetShifts();
       if (result) setContent(result);
     } catch (error) {
       console.error("Error fetching oders:", error);
@@ -68,7 +65,7 @@ const Shifts: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchOrders();
+    fetchShifts();
   }, []);
 
   if (loading) {
@@ -76,18 +73,18 @@ const Shifts: React.FC = () => {
   }
 
   return (
-    <div className="customers-container">
-      <h1>Gestión de Ordenes</h1>
+    <div className="turnos-container">
+      <h1>Gestión de Turnos</h1>
       <Table
         HeadList={headList}
         ComplementTitle="Orden"
         Content={content}
         Fields={fields}
         ItemsArray={itemsArray}
-        UpdateTable={fetchOrders}
-        Add={CreateOrder}
-        Edit={EditOrder}
-        Delete={DeleteOrder}
+        UpdateTable={fetchShifts}
+        Add={CreateShift}
+        Edit={EditShift}
+        Delete={DeleteShift}
       />
     </div>
   );
