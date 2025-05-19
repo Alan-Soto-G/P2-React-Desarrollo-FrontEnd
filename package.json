@@ -25,6 +25,7 @@
     "framer-motion": "^12.10.5",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet-routing-machine": "^3.2.12",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
