@@ -158,7 +158,7 @@ const Menus: React.FC = () => {
     }
 
     return (
-        <div className="menus-container">
+        <div className="table-container">
             <h1>Gestión de Menús</h1>
             <Table
                 HeadList={headList}

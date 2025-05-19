@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
+import * as Yup from 'yup';
 import '../styles/tableCrud.css';
 import EmergentCrud from '../components/emergentCrud';
 import Lottie from "lottie-react";
 import IconAdd from "../assets/add-button-animation.json";
 import IconDelete from "../assets/delete-button-animation.json";
 import IconEdit from "../assets/edit-button-animation.json";
-
 
 interface FieldConfig { // Formato | Tipo de dato para los campos del form
     type: string; // Tipo del input
@@ -31,10 +31,11 @@ interface TableProps { // Props para el componente Table
     Add: (content: any) => void; // Función para agregar un producto
     Edit: (id: string, content: any) => void; // Función para editar un producto
     Delete: (id: string) => void;  // Función para eliminar un producto
-
+    validationSchema?: Yup.ObjectSchema<any>; // Nueva prop
+    customRender?: { [key: string]: (value: any) => { __html: string } }; // Nuevo
 }
 
-const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Fields, ItemsArray, UpdateTable, Add, Edit, Delete }) => {
+const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Fields, ItemsArray, UpdateTable, Add, Edit, Delete, validationSchema, customRender }) => {
 
     const [showEmergent, setShowEmergent] = useState(false); // Estado para mostrar/ocultar la tarjeta emergente
     const [emergentType, setEmergentType] = useState(0); // Estado para el tipo de tarjeta emergente (1: agregar, 2: editar, 3: eliminar)
@@ -105,7 +106,13 @@ const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Field
                     {Content.map((row, rowIndex) => ( // Mapeo de cada fila
                         <tr key={rowIndex}> {/* Mapeo de cada columna */}
                             {ItemsArray.map((key, cellIndex) => ( // Mapeo de cada celda
-                                <td key={cellIndex}>{row[key]}</td> // Muestra el valor de la celda
+                                <td key={cellIndex}>
+                                    {customRender && customRender[key] ? (
+                                        <span dangerouslySetInnerHTML={customRender[key](row[key])} />
+                                    ) : (
+                                        row[key]
+                                    )}
+                                </td>
                             ))}
                             <td><button
                                 id='edit-button'
@@ -156,6 +163,7 @@ const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Field
                     Add={Add} // Función para agregar un producto
                     Edit={Edit} // Función para editar un producto
                     Delete={Delete} // Función para eliminar un producto
+                    validationSchema={validationSchema} // Pasar el esquema de validación
                 />
             )}
         </div>

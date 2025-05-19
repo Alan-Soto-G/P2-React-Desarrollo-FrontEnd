@@ -1,23 +1,27 @@
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    margin: 20px auto;
+    margin: 20px 0;
     position: relative;
-    top: -100px;
-    left: 27%;
+    overflow-x: auto;
+    color: black;
 }
 
-#title-products {
-    position: relative;
+h1 {
     font-size: 2em;
-
-    margin-bottom: 20px;
+    margin: 20px 0;
     color: #000000;
     text-align: center;
-    align-items: center;
-    align-content: center;
 }
 
 .add-button {
@@ -31,6 +35,8 @@ table {
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
+    margin: 0 0 20px auto;
+    /* Alinea a la derecha */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -50,20 +56,24 @@ table {
     align-items: center;
 }
 
-#edit-button{
+#edit-button {
     background-color: rgb(62, 152, 215);
     border-color: black;
 }
-#delete-button{
+
+#delete-button {
     background-color: rgba(243, 69, 69, 0.755);
     border-color: black;
 }
-#edit-button:hover{
+
+#edit-button:hover {
     background-color: rgb(0, 149, 255);
 }
-#delete-button:hover{
-    background-color: rgb(255, 0, 0);;
+
+#delete-button:hover {
+    background-color: rgb(255, 0, 0);
 }
+
 #delete-button:hover,
 #edit-button:hover {
     transform: scale(1.05);
@@ -82,7 +92,8 @@ thead tr {
     letter-spacing: 0.1em;
 }
 
-th, td {
+th,
+td {
     padding: 12px 20px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -96,4 +107,28 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
     background-color: #e8f4f8;
     transition: background-color 0.3s ease;
+}
+
+/* Responsive para tablas en dispositivos móviles */
+@media screen and (max-width: 768px) {
+    .table-container {
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th,
+    td {
+        padding: 8px 10px;
+    }
+
+    .add-button {
+        margin: 0 auto 20px;
+        width: 100%;
+    }
 }

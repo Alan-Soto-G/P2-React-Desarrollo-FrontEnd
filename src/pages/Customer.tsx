@@ -56,10 +56,7 @@ const Customers: React.FC = () => {
         },
     };
 
-
-    // Cargar datos de customeros
-    useEffect(() => {
-        const fetchCustomers = async () => {
+    const fetchCustomers = async () => {
             try {
                 const result = await GetCustomers();
                 if (result) setContent(result);
@@ -70,6 +67,10 @@ const Customers: React.FC = () => {
             }
         };
 
+    // Cargar datos de customeros
+    useEffect(() => {
+        
+
         fetchCustomers();
     }, []);
 
@@ -78,7 +79,7 @@ const Customers: React.FC = () => {
     }
 
     return (
-        <div className="customers-container">
+        <div className="table-container">
             <h1>Gestión de Clientes</h1>
             <Table
                 HeadList={headList}
@@ -86,6 +87,7 @@ const Customers: React.FC = () => {
                 Content={content}
                 Fields={fields}
                 ItemsArray={itemsArray}
+                UpdateTable={fetchCustomers}
                 Add={CreateCustomer}
                 Edit={EditCustomer}
                 Delete={DeleteCustomer}

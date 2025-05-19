@@ -20,7 +20,7 @@ interface Address {
 // Separación entre columnas de datos y acciones
 const dataHeaders = [
     "ID",
-    "ODER ID",
+    "ORDER ID", 
     "Street",
     "City",
     "State",
@@ -30,7 +30,7 @@ const dataHeaders = [
 const actionHeaders = ["Edit", "Delete"];
 const headList = [...dataHeaders, ...actionHeaders];
 
-// Propiedades que se muestran en la tabla (excluyendo acciones)
+// Propiedades que se muestran en la tabla
 const itemsArray = [
     "id",
     "order_id",
@@ -41,12 +41,19 @@ const itemsArray = [
     "additional_info",
 ];
 
-const Addreses: React.FC = () => {
-    // Estados para almacenar los addressos y el estado de carga
+const Addresses: React.FC = () => {
     const [content, setContent] = useState<Address[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     const fields = {
+        order_id: {
+            type: "number",
+            placeholder: "ID de la Orden",
+            validation: {
+                required: true,
+                min: 1
+            }
+        },
         street: {
             type: "text",
             placeholder: "Calle",
@@ -54,7 +61,7 @@ const Addreses: React.FC = () => {
                 required: true,
                 minLength: 3,
                 maxLength: 100,
-                pattern: "^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ .,°#-]+$", // Letras, números y símbolos comunes
+                pattern: "^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ .,°#-]+$",
             },
         },
         city: {
@@ -64,7 +71,7 @@ const Addreses: React.FC = () => {
                 required: true,
                 minLength: 2,
                 maxLength: 50,
-                pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", // Solo letras y espacios
+                pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$",
             },
         },
         state: {
@@ -74,7 +81,7 @@ const Addreses: React.FC = () => {
                 required: true,
                 minLength: 2,
                 maxLength: 50,
-                pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", // Solo letras y espacios
+                pattern: "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$",
             },
         },
         postal_code: {
@@ -82,7 +89,7 @@ const Addreses: React.FC = () => {
             placeholder: "Código Postal",
             validation: {
                 required: true,
-                pattern: "^[0-9]{4,10}$", // Solo números, entre 4 y 10 dígitos
+                pattern: "^[0-9]{4,10}$",
             },
         },
         additional_info: {
@@ -91,42 +98,41 @@ const Addreses: React.FC = () => {
             validation: {
                 required: false,
                 maxLength: 200,
-                pattern: "^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ .,°#-]*$", // Letras, números y símbolos comunes
+                pattern: "^[a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ .,°#-]*$",
             },
         },
     };
 
-    const fetchAddreses = async () => {
-            try {
-                const result = await GetAddresses();
-                if (result) setContent(result);
-            } catch (error) {
-                console.error("Error fetching addresses:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-    // Cargar datos de addressos
-    useEffect(() => {
-        
+    const fetchAddresses = async () => {
+        try {
+            const result = await GetAddresses();
+            if (result) setContent(result);
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchAddreses();
+    // Cargar datos de direcciones
+    useEffect(() => {
+        fetchAddresses();
     }, []);
 
     if (loading) {
-        return <div className="loading-indicator">Loading...</div>;
+        return <div className="loading-indicator">Cargando direcciones...</div>;
     }
 
     return (
-        <div className="addresses-container">
+        <div className="table-container">
             <h1>Gestión de Direcciones</h1>
             <Table
                 HeadList={headList}
-                ComplementTitle="Cliente"
+                ComplementTitle="Dirección" // Corregido de "Cliente" a "Dirección"
                 Content={content}
                 Fields={fields}
                 ItemsArray={itemsArray}
-                UpdateTable={fetchAddreses}
+                UpdateTable={fetchAddresses}
                 Add={CreateAddress}
                 Edit={EditAddress}
                 Delete={DeleteAddress}
@@ -134,4 +140,5 @@ const Addreses: React.FC = () => {
         </div>
     );
 };
-export default Addreses;
+
+export default Addresses;

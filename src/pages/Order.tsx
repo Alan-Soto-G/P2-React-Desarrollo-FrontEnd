@@ -3,7 +3,7 @@ import Table from "../components/tableCrud";
 import { GetOrders, CreateOrder, EditOrder, DeleteOrder } from "../services/OrderService";
 import { GetCustomers } from "../services/CustomerService";
 import { GetMenus } from "../services/MenuService";
-import { getMotorcycles } from "../services/MotorcycleService";
+import { getMotorcycles } from "../services/MotorcycleService.ts";
 
 // Interfaces para los diferentes tipos de datos
 interface Order {
@@ -313,7 +313,7 @@ const Orders: React.FC = () => {
     }
 
     return (
-        <div className="orders-container">
+        <div className="table-container">
             <h1>Gestión de Pedidos</h1>
             <Table
                 HeadList={headList}
