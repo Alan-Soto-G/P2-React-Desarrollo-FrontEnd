@@ -1,9 +1,12 @@
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_BACKEND_API + "products";
+import GetInstanceAxios from '../components/authInstance';
+
+const instance = GetInstanceAxios({ API_URL });
 
 export const GetProducts = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await instance.get('');
         console.log("Data recibida:", response.data);
         return response.data;
     } catch (error) {
@@ -15,7 +18,7 @@ export const GetProducts = async () => {
 
 export const CreateProduct = async (product: any) => {
     try {
-        const response = await axios.post(API_URL, product);
+        const response = await instance.post('', product);
         console.log("Producto creado:", response.data);
         return response.data;
     } catch (error) {
@@ -27,7 +30,7 @@ export const CreateProduct = async (product: any) => {
 
 export const EditProduct = async (id: string, product: any) => {
     try {
-        const response = await axios.put(`${API_URL}/${id}`, product);
+        const response = await instance.put(`/${id}`, product);
         console.log("Producto actualizado:", response.data);
         return response.data;
     } catch (error) {
@@ -39,7 +42,7 @@ export const EditProduct = async (id: string, product: any) => {
 
 export const DeleteProduct = async (id: string) => {
     try {
-        const response = await axios.delete(`${API_URL}/${id}`);
+        const response = await instance.delete(`/${id}`);
         console.log("Producto eliminado correctamente");
         return true;
     } catch (error) {

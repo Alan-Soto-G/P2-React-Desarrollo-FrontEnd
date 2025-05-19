@@ -14,11 +14,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
+        // Al cargar, intentar recuperar el token del localStorage
+        const storedToken = localStorage.getItem('auth_token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
+        
         const fetchToken = async () => {
             if (isAuthenticated) {
                 try {
                     const accessToken = await getAccessTokenSilently();
                     setToken(accessToken);
+                    // Guardar el token en localStorage
+                    localStorage.setItem('auth_token', accessToken);
                 } catch (error) {
                     console.error('Error obteniendo el token:', error);
                     setToken(null);
@@ -30,11 +38,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [getAccessTokenSilently, isAuthenticated]);
 
     const getToken = async () => {
+        // Primero intentar usar el token del estado
         if (token) return token;
+        
+        // Si no está en el estado, intentar recuperarlo del localStorage
+        const storedToken = localStorage.getItem('auth_token');
+        if (storedToken) {
+            setToken(storedToken);
+            return storedToken;
+        }
+        
+        // Si no está en localStorage y el usuario está autenticado, obtenerlo de nuevo
         if (isAuthenticated) {
             try {
                 const accessToken = await getAccessTokenSilently();
                 setToken(accessToken);
+                localStorage.setItem('auth_token', accessToken);
                 return accessToken;
             } catch (error) {
                 console.error('Error obteniendo el token:', error);
