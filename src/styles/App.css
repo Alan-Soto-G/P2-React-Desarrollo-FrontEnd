@@ -1,11 +1,17 @@
 /* app.css limpio */
-/* Aquí puedes mantener los estilos generales de tu aplicación principal */
+/* Estilos generales de tu aplicación principal */
 
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  padding-top: 80px; /* Para el navbar */
+}
+
+/* Para la página de login sin padding */
+body.login-page {
+  padding-top: 0;
 }
 
 /* Estilos globales genéricos */
@@ -18,7 +24,28 @@ button {
   font-family: inherit;
 }
 
-/* Contenedor principal */
-.main-container {
+/* Actualizar estilos para el contenido principal */
+
+.main-content {
+  margin-left: 250px; /* Ancho del sidebar */
   padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Cuando el sidebar está oculto */
+.main-content.sidebar-hidden {
+  margin-left: 0;
+}
+
+/* Cuando el sidebar está colapsado */
+.main-content.sidebar-collapsed {
+  margin-left: 60px;
+}
+
+/* Para dispositivos móviles */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+  }
 }

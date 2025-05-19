@@ -39,6 +39,25 @@
     font-weight: 500;
 }
 
+/* Agregar al final del archivo */
+
+.select-dropdown {
+    width: 85%;
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    background-color: #555;
+    cursor: pointer;
+}
+
+.select-dropdown:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
 #card {
     background: white;
     padding: 20px;  /* Reducido de 30px */
