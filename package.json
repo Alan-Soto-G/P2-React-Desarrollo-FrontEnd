@@ -33,10 +33,7 @@
     "react-dom": "^19.1.0",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.0",
-<<<<<<< HEAD
     "reactstrap": "^9.2.3",
-=======
->>>>>>> 83788a7f9565244466ae7411ccc39722738ccbd1
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.21.1",
     "use-sound": "^5.0.0",
