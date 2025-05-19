@@ -104,15 +104,12 @@ const Orders: React.FC = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Cargar clientes
                 const customersData = await GetCustomers();
                 if (customersData) setCustomers(customersData);
                 
-                // Cargar menus con su información relacionada
                 const menusData = await GetMenus();
                 if (menusData) setMenus(menusData);
                 
-                // Cargar motocicletas
                 const motorcyclesData = await getMotorcycles();
                 if (motorcyclesData) setMotorcycles(motorcyclesData);
             } catch (error) {
@@ -180,7 +177,6 @@ const Orders: React.FC = () => {
                 { label: 'Cancelado', value: 'cancelled' }
             ]
         },
-        // Campos para la dirección (se incluyen al crear la orden)
         street: {
             type: 'text',
             placeholder: 'Calle',
@@ -229,7 +225,6 @@ const Orders: React.FC = () => {
             total_price: order.total_price,
             status: order.status,
             created_at: order.created_at,
-            // Campos formateados para mostrar en la tabla
             customer_name: order.customer?.name || "Desconocido",
             product_name: order.menu?.product?.name || "Desconocido",
             restaurant_name: order.menu?.restaurant?.name || "Desconocido",
@@ -254,7 +249,6 @@ const Orders: React.FC = () => {
 
     // Pre-procesamiento antes de crear una orden
     const handleCreate = async (orderData: any) => {
-        // Extraer datos de dirección
         const addressData = {
             street: orderData.street,
             city: orderData.city,
@@ -263,7 +257,6 @@ const Orders: React.FC = () => {
             additional_info: orderData.additional_info,
         };
 
-        // Si se seleccionó un menú, obtener su precio
         let price = 0;
         if (orderData.menu_id) {
             const selectedMenu = menus.find(menu => menu.id === parseInt(orderData.menu_id));
@@ -272,10 +265,8 @@ const Orders: React.FC = () => {
             }
         }
 
-        // Calcular precio total
         const totalPrice = price * orderData.quantity;
 
-        // Crear objeto de orden limpio para enviar al backend
         const orderToCreate = {
             customer_id: parseInt(orderData.customer_id),
             menu_id: parseInt(orderData.menu_id),
@@ -286,13 +277,19 @@ const Orders: React.FC = () => {
             address: addressData
         };
 
-        // Llamar al servicio de creación
-        return await CreateOrder(orderToCreate);
+        const result = await CreateOrder(orderToCreate);
+        
+        if (result) {
+            // Reproducir sonido de notificación
+            const audio = new Audio('public/sounds/notification.mp3');
+            audio.play();
+        }
+        
+        return result;
     };
 
     // Pre-procesamiento antes de editar una orden
     const handleEdit = async (id: string, orderData: any) => {
-        // Actualizar la orden (normalmente no se edita la dirección)
         const orderToUpdate = {
             customer_id: parseInt(orderData.customer_id),
             menu_id: parseInt(orderData.menu_id),
@@ -305,7 +302,6 @@ const Orders: React.FC = () => {
         return await EditOrder(id, orderToUpdate);
     };
 
-    // Cargar datos de órdenes
     useEffect(() => { fetchOrders() }, []);
 
     if (loading) {

@@ -1,5 +1,7 @@
 const API_URL = import.meta.env.VITE_BACKEND_API + "orders";
 import GetInstanceAxios from '../components/authInstance';
+import { toast } from 'react-toastify';
+
 
 const instance = GetInstanceAxios({ API_URL });
 
@@ -19,13 +21,23 @@ export const CreateOrder = async (order: any) => {
     try {
         const response = await instance.post('', order);
         console.log("Orden creada:", response.data);
+        
+        // Mostrar toast de éxito
+        toast.success('✅ Pedido creado y asignado a una motocicleta.');
+
+        // Reproducir sonido de notificación
+        const audio = new Audio('public/sounds/notification.mp3');
+        audio.play();
+
         return response.data;
     } catch (error) {
         console.error("Error al crear orden:", error);
-        alert("Error al crear orden");
+        toast.error('❌ Error al crear el pedido');
         throw error;
     }
 };
+
+
 
 export const EditOrder = async (id: string, order: any) => {
     try {

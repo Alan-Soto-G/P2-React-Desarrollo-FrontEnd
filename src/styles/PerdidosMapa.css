@@ -1,0 +1,44 @@
+/* Contenedor general del mapa */
+.mapa-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background-color: #f9f9f9;
+  border: 2px solid #e0e0e0;
+}
+
+/* Título superior */
+.mapa-header {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Mapa ajustado con bordes redondeados en la parte inferior */
+.leaflet-container {
+  height: 500px !important;
+  width: 100% !important;
+  border-top: 1px solid #ccc;
+}
+
+/* Estilizar los popups de Leaflet */
+.leaflet-popup-content-wrapper {
+  background: white;
+  color: #333;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 8px 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
