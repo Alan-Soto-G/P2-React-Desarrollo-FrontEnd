@@ -2,9 +2,8 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import L from 'leaflet';
 import '../styles/PerdidosMapa.css';
-import 'leaflet-routing-machine';
-import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const restaurante = { lat: 5.0703, lng: -75.5138 };
 const cliente = { lat: 5.0737, lng: -75.5159 };
@@ -23,6 +22,35 @@ const motoIcon = L.icon({
 
 const PedidosMapa = () => {
   const [motoPos, setMotoPos] = useState(restaurante);
+  const [coords, setCoords] = useState<{lat: number, lng: number}[]>([]);
+
+  useEffect(() => {
+    // Cargar las coordenadas desde example_1.json
+    fetch('/example_1.json')
+      .then(res => res.json())
+      .then((data: {lat: number, lng: number}[]) => {
+        setCoords(data);
+      })
+      .catch(err => {
+        console.error('Error cargando las coordenadas:', err);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (coords.length === 0) return;
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < coords.length) {
+        setMotoPos(coords[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000); // velocidad de movimiento 
+
+    return () => clearInterval(interval);
+  }, [coords]);
 
   return (
     <div className="mapa-container">
@@ -38,72 +66,12 @@ const PedidosMapa = () => {
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        <RoutingHandler setMotoPos={setMotoPos} />
-
-        <Marker position={[restaurante.lat, restaurante.lng]}>
-          <Popup>📍 Restaurante</Popup>
-        </Marker>
-
-        <Marker position={[cliente.lat, cliente.lng]} icon={casaIcon}>
-          <Popup>📦 Pedido del cliente</Popup>
-        </Marker>
-
         <Marker position={[motoPos.lat, motoPos.lng]} icon={motoIcon}>
           <Popup>🏍️ Moto</Popup>
         </Marker>
       </MapContainer>
     </div>
   );
-};
-
-const RoutingHandler = ({ setMotoPos }: { setMotoPos: Function }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    const routingControl = L.Routing.control({
-      waypoints: [
-        L.latLng(restaurante.lat, restaurante.lng),
-        L.latLng(cliente.lat, cliente.lng),
-      ],
-      lineOptions: {
-        styles: [{ color: 'green', weight: 4 }],
-        extendToWaypoints: true,
-        missingRouteTolerance: 1,
-      },
-      // @ts-expect-error: createMarker is not in the official type but is supported by leaflet-routing-machine
-      createMarker: function (i, waypoint, n) {
-        // Solo mostrar el ícono de la casa en el último punto (cliente)
-        if (i === n - 1) {
-          return L.marker(waypoint.latLng, { icon: casaIcon });
-        }
-        return null; // No mostrar marcador en el restaurante
-      },
-      addWaypoints: false,
-      fitSelectedRoutes: true,
-      show: false,
-    } as any).addTo(map);
-
-    routingControl.on('routesfound', function (e) {
-      const route = e.routes[0];
-      const coordenadas = route.coordinates;
-
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < coordenadas.length) {
-          setMotoPos({ lat: coordenadas[i].lat, lng: coordenadas[i].lng });
-          i++;
-        } else {
-          clearInterval(interval);
-        }
-      }, 500); // <-- velocidad más lenta (300 ms entre movimientos)
-    });
-
-    return () => {
-      map.removeControl(routingControl);
-    };
-  }, [map, setMotoPos]);
-
-  return null;
 };
 
 export default PedidosMapa;
