@@ -10,7 +10,7 @@ import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage";
-import Restaurants from "./pages/restaurants";
+import Restaurants from "./pages/Restaurants";
 import { AuthProvider } from "./context/AuthContext";
 import Customer from "./pages/Customer";
 import Address  from "./pages/Address";
