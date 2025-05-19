@@ -15,6 +15,8 @@ import Customer from "./pages/Customer";
 import Address  from "./pages/Address";
 import Order from "./pages/Order";
 import Shift  from "./pages/Shift";
+import Issue from "./pages/Issue";
+import PedidosPage from "./pages/PedidosPages";
 
 
 
@@ -48,10 +50,8 @@ function App() {
             <Route path="/direcciones" element={<Address />} />
             <Route path="/ordenes" element={<Order />} />
             <Route path="/turnos" element={<Shift />} />
-
-            {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
-            {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
-            {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}
+            <Route path="/inconvenientes" element={<Issue/>} />
+            <Route path="/mapa" element={<PedidosPage/>} />
           </Routes>
         </Layout>
       </AuthProvider>
