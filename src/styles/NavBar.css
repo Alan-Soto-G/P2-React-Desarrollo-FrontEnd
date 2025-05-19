@@ -279,3 +279,132 @@ body {
   background-color: #e43f41;
   transform: scale(1.05);
 }
+.notifications-dropdown {
+  position: absolute;
+  top: -110%;
+  right: 0;
+  background-color: white;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 250px;
+  padding: 0.5rem;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+  /* Opcional para centrar horizontalmente */
+  transform: translateX(10%);
+}
+
+
+.notification-item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item.empty {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-message {
+  position: absolute;
+  bottom: 100%; /* justo arriba del texto */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4e50;
+  color: white;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.95;
+  animation: fadeInToast 0.3s ease;
+}
+
+@keyframes fadeInToast {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10%);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+.notification-info {
+  font-weight: bold;
+  padding: 0.5rem;
+  color: #333;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Dropdown contenedor */
+.notifications-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 260px; /* Ajusta el ancho */
+  z-index: 100;
+  padding: 0;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* Mensaje superior */
+.notification-info {
+  font-weight: 600;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+  color: #333;
+}
+
+/* Notificación individual */
+.notification-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+/* Sin notificaciones */
+.notification-item.empty {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  background-color: #f9f9f9;
+}
