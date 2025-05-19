@@ -10,6 +10,7 @@ import Products from "./pages/products";
 import DriversPage from "./pages/Drivers";
 import MotorcyclesPage from "./pages/motorcycles";
 import ChartsPage from "./pages/ChartPage";
+import Restaurants from "./pages/restaurants";
 import { AuthProvider } from "./context/AuthContext";
 
 
@@ -40,7 +41,7 @@ function App() {
             <Route path="/conductores" element={<DriversPage />} />
             <Route path="/graficos" element={<ChartsPage />} />
             <Route path="/motocicletas" element={<MotorcyclesPage />} />
-
+            <Route path="/restaurantes" element={<Restaurants />} />
             {/* <Route path="/conductores/crear" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/editar/:id" element={<DriverForm />} /> */}
             {/* <Route path="/conductores/:id" element={<DriverForm />} /> */}

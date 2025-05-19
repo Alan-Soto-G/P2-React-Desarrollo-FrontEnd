@@ -28,8 +28,8 @@ interface TableProps { // Props para el componente Table
     Fields: { [key: string]: FieldConfig }; // Campos para el formulario
     ItemsArray: string[];
     UpdateTable: () => void; // Función para actualizar la tabla
-    Add: (product: any) => void; // Función para agregar un producto
-    Edit: (id: string, product: any) => void; // Función para editar un producto
+    Add: (content: any) => void; // Función para agregar un producto
+    Edit: (id: string, content: any) => void; // Función para editar un producto
     Delete: (id: string) => void;  // Función para eliminar un producto
 
 }
