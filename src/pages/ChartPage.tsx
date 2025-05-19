@@ -1,21 +1,20 @@
 import React from 'react';
 import MyCharts from '../components/MyCharts';
 import ChartsL from '../components/ChartsL';
+import '../styles/MyCharts.css';
 
 const ChartPage = () => {
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', padding: '2rem 0' }}>Visualización de Datos</h1>
+    <div className="my-charts-page">
+      <h1 className="titulo-principal"> Visualización de Datos</h1>
 
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ textAlign: 'center' }}>📊 Datos Generales del Sistema</h2>
+      <div className="my-charts-container">
+        {/* Gráficos de datos generales */}
         <MyCharts />
-      </section>
 
-      <section>
-        <h2 style={{ textAlign: 'center' }}>🕒 Análisis por Hora y Estado</h2>
+        {/* Gráficos de análisis por hora y estado */}
         <ChartsL />
-      </section>
+      </div>
     </div>
   );
 };
