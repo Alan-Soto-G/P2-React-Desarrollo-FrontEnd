@@ -1,4 +1,3 @@
-import React from "react";
 import './styles/App.css';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -52,6 +51,7 @@ function App() {
             <Route path="/clientes" element={<Customer />} />
             <Route path="/direcciones" element={<Address />} />
             <Route path="/ordenes" element={<Order />} />
+            <Route path="/menus" element={<Menus />} />
             <Route path="/turnos" element={<Shift />} />
             <Route path="/inconvenientes" element={<Issue/>} />
             <Route path="/mapa" element={<PedidosMapa/>} />
