@@ -14,6 +14,10 @@ interface FieldConfig { // Formato | Tipo de dato para los campos del form
         required?: boolean;
         pattern?: string;
     };
+    options?: Array<{
+        label: string;
+        value: string | number;
+    }>;
 }
 
 interface EmergentCrudProps { // Props para el componente EmergentCrud
@@ -81,19 +85,36 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({ Title, Fields, TextButton, 
                 {EmergentType === 1 || EmergentType === 2 ? ( // Agregar o Editar
                     Object.entries(Fields).map(([key, field], index) => ( // Muestra los campos del formulario
                         <div key={index} className="fields">
-                            <input
-                                onChange={(e) => handleInputChange(key, e.target.value)}
-                                value={formData[key] || ''}  // Conecta el input con el estado
-                                type={field.type}
-                                id={key}
-                                placeholder={field.placeholder}
-                                maxLength={field.validation?.maxLength}
-                                minLength={field.validation?.minLength}
-                                max={field.validation?.max}
-                                min={field.validation?.min}
-                                required={field.validation?.required}
-                                pattern={field.validation?.pattern}
-                            />
+                            {field.type === "select" ? (
+                                <select
+                                    onChange={(e) => handleInputChange(key, e.target.value)}
+                                    value={formData[key] || ''}
+                                    id={key}
+                                    required={field.validation?.required}
+                                    className="select-dropdown"
+                                >
+                                    <option value="">-- Seleccione {field.placeholder} --</option>
+                                    {field.options?.map((option, i) => (
+                                        <option key={i} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    onChange={(e) => handleInputChange(key, e.target.value)}
+                                    value={formData[key] || ''}  // Conecta el input con el estado
+                                    type={field.type}
+                                    id={key}
+                                    placeholder={field.placeholder}
+                                    maxLength={field.validation?.maxLength}
+                                    minLength={field.validation?.minLength}
+                                    max={field.validation?.max}
+                                    min={field.validation?.min}
+                                    required={field.validation?.required}
+                                    pattern={field.validation?.pattern}
+                                />
+                            )}
                         </div>
                     ))
                 ) : ( // Eliminar

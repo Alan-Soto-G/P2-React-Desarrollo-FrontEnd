@@ -96,10 +96,7 @@ const Addreses: React.FC = () => {
         },
     };
 
-
-    // Cargar datos de addressos
-    useEffect(() => {
-        const fetchAddreses = async () => {
+    const fetchAddreses = async () => {
             try {
                 const result = await GetAddresses();
                 if (result) setContent(result);
@@ -109,6 +106,9 @@ const Addreses: React.FC = () => {
                 setLoading(false);
             }
         };
+    // Cargar datos de addressos
+    useEffect(() => {
+        
 
         fetchAddreses();
     }, []);
@@ -119,13 +119,14 @@ const Addreses: React.FC = () => {
 
     return (
         <div className="addresses-container">
-            <h1>Gestión de Clientes</h1>
+            <h1>Gestión de Direcciones</h1>
             <Table
                 HeadList={headList}
                 ComplementTitle="Cliente"
                 Content={content}
                 Fields={fields}
                 ItemsArray={itemsArray}
+                UpdateTable={fetchAddreses}
                 Add={CreateAddress}
                 Edit={EditAddress}
                 Delete={DeleteAddress}

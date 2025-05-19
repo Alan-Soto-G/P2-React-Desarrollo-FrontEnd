@@ -1,4 +1,3 @@
-// src/components/NavBar.tsx
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
@@ -8,7 +7,6 @@ import { io } from "socket.io-client";
 const socket = io(import.meta.env.VITE_BACKEND_API); // Ajusta la URL de tu backend
 
 export default function NavBar() {
-
   const { user, logout, isAuthenticated } = useAuth0();
   const [notifications, setNotifications] = useState(0);
 
@@ -24,16 +22,11 @@ export default function NavBar() {
     };
   }, []);
 
-
   return (
     <nav className="custom-navbar">
       <div className="navbar-left">
         <Link to="/home" className="logo">🍽️ FoodExpress</Link>
-        <div className="nav-links">
-          <Link to="/conductores">Conductores</Link>
-          <Link to="/motocicletas">Motocicletas</Link>
-          <Link to="/ordenes">Órdenes</Link>
-        </div>
+        {/* Los links se han movido al sidebar */}
       </div>
 
       {isAuthenticated && user && (
