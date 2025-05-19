@@ -28,7 +28,7 @@ const MyCharts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('https://14ef02db-5750-4018-97d6-12f39b2b2f08.mock.pstmn.io/charts/data');
+        const res = await axios.get('https://7c45be25-8dc6-4186-86a1-e5f7117429ae.mock.pstmn.io/charts/data');
         const transformed = transformData(res.data);
         setChartData(transformed);
       } catch (error) {
