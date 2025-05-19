@@ -9,7 +9,7 @@ const ChartsA = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get('https://bd551232-d4b3-4ee9-b257-d804c11bbac1.mock.pstmn.io/charts/dataA');
+                const res = await axios.get('https://078b6dac-4dfc-435e-ab62-deed7b1b7a57.mock.pstmn.io/chartsA');
                 setChartData(res.data);
             } catch (error) {
                 console.error('Error al obtener datos del mock:', error);
