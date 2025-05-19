@@ -12,27 +12,38 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@google/genai": "^0.13.0",
     "@lottiefiles/dotlottie-react": "^0.13.5",
     "@lottiefiles/react-lottie-player": "^3.6.0",
+    "@react-google-maps/api": "^2.20.6",
     "@react-oauth/google": "^0.12.2",
     "apexcharts": "^4.7.0",
     "axios": "^1.9.0",
+    "bootstrap": "^5.3.6",
     "formik": "^2.4.6",
     "framer-motion": "^12.10.5",
     "jwt-decode": "^4.0.0",
+    "leaflet": "^1.9.4",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.1.0",
+    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.0",
+<<<<<<< HEAD
+    "reactstrap": "^9.2.3",
+=======
+>>>>>>> 83788a7f9565244466ae7411ccc39722738ccbd1
+    "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.21.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/axios": "^0.14.4",
+    "@types/leaflet": "^1.9.17",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",

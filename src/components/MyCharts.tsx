@@ -5,7 +5,6 @@ import '../styles/MyCharts.css';
 
 const MyCharts = () => {
   const [chartData, setChartData] = useState<any>(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
