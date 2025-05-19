@@ -24,10 +24,14 @@ const ChartsL = () => {
   }
 
   return (
-    <div className="my-charts-container">
+    <>
       <div className="chart-wrapper">
         <Chart
-          options={{ chart: { type: 'bar' }, title: { text: chartData.bar.title }, xaxis: { categories: chartData.bar.categories } }}
+          options={{
+            chart: { type: 'bar' },
+            title: { text: chartData.bar.title },
+            xaxis: { categories: chartData.bar.categories }
+          }}
           series={[{ name: 'Pedidos', data: chartData.bar.series }]}
           type="bar"
           height={450}
@@ -36,7 +40,11 @@ const ChartsL = () => {
 
       <div className="chart-wrapper">
         <Chart
-          options={{ chart: { type: 'line' }, title: { text: chartData.line.title }, xaxis: { categories: chartData.line.categories } }}
+          options={{
+            chart: { type: 'line' },
+            title: { text: chartData.line.title },
+            xaxis: { categories: chartData.line.categories }
+          }}
           series={[{ name: 'Pedidos Entregados', data: chartData.line.series }]}
           type="line"
           height={450}
@@ -45,13 +53,17 @@ const ChartsL = () => {
 
       <div className="chart-wrapper">
         <Chart
-          options={{ chart: { type: 'pie' }, title: { text: chartData.pie.title }, labels: chartData.pie.labels }}
+          options={{
+            chart: { type: 'pie' },
+            title: { text: chartData.pie.title },
+            labels: chartData.pie.labels
+          }}
           series={chartData.pie.series}
           type="pie"
           height={450}
         />
       </div>
-    </div>
+    </>
   );
 };
 
