@@ -1,4 +1,3 @@
-import axios from 'axios';
 const API_URL = import.meta.env.VITE_BACKEND_API + "menus";
 import GetInstanceAxios from '../components/authInstance';
 

@@ -1,10 +1,14 @@
 import axios from 'axios';
+import GetInstanceAxios from '../components/authInstance';
 
 const API_URL = import.meta.env.VITE_BACKEND_API + "motorcycles";
 
+// Crear una instancia de axios configurada para autenticación
+const instance = GetInstanceAxios({ API_URL });
+
 export const getMotorcycles = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await instance.get('');
         console.log("Motocicletas recibidas:", response.data);
         return response.data;
     } catch (error) {
@@ -16,7 +20,7 @@ export const getMotorcycles = async () => {
 
 export const createMotorcycle = async (motorcycle: any) => {
     try {
-        const response = await axios.post(API_URL, motorcycle);
+        const response = await instance.post('', motorcycle);
         console.log("Motocicleta creada:", response.data);
         return response.data;
     } catch (error) {
@@ -31,7 +35,7 @@ export const updateMotorcycle = async (id: string, motorcycle: any) => {
         // Convertimos el id a número si la API lo requiere
         const numericId = parseInt(id, 10);
 
-        const response = await axios.put(`${API_URL}/${numericId}`, motorcycle);
+        const response = await instance.put(`/${numericId}`, motorcycle);
         console.log("Motocicleta actualizada:", response.data);
         return response.data;
     } catch (error) {
@@ -46,7 +50,7 @@ export const deleteMotorcycle = async (id: string) => {
         // Convertimos el id a número si la API lo requiere
         const numericId = parseInt(id, 10);
 
-        const response = await axios.delete(`${API_URL}/${numericId}`);
+        const response = await instance.delete(`/${numericId}`);
         console.log("Motocicleta eliminada correctamente");
         return true;
     } catch (error) {

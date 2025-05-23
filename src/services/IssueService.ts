@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { UploadPhoto } from './PhotoService';
+import GetInstanceAxios from '../components/authInstance';
 
 const API_URL = import.meta.env.VITE_BACKEND_API + "issues";
 
+// Crear una instancia de axios configurada para autenticación
+const instance = GetInstanceAxios({ API_URL });
+
 export const GetIssues = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await instance.get('');
         console.log("Data received:", response.data);
         return response.data;
     } catch (error) {
@@ -19,7 +22,7 @@ export const CreateIssue = async (issue: any) => {
     try {
         console.log("Creating issue with data:", issue);
         
-        // First, create the issue record without photos
+        // Create the issue without photos
         const issueData = {
             motorcycle_id: issue.motorcycle_id,
             description: issue.description,
@@ -30,30 +33,9 @@ export const CreateIssue = async (issue: any) => {
         
         console.log("Sending issue data:", issueData);
         
-        // Create the issue first (without photos)
-        const issueResponse = await axios.post(API_URL, issueData);
+        // Create the issue using the authenticated instance
+        const issueResponse = await instance.post('', issueData);
         console.log("Issue created:", issueResponse.data);
-        
-        const issueId = issueResponse.data.id;
-        
-        // If we have photos, upload them separately
-        if (issue.photos && issue.photos instanceof FileList && issue.photos.length > 0) {
-            console.log(`Uploading ${issue.photos.length} photos for issue ${issueId}`);
-            
-            // Upload each photo with a separate request
-            for (let i = 0; i < issue.photos.length; i++) {
-                try {
-                    await UploadPhoto(
-                        issueId, 
-                        issue.photos[i],
-                        issue.caption || ""
-                    );
-                } catch (photoError) {
-                    console.error(`Failed to upload photo ${i+1}:`, photoError);
-                    // Continue with next photo even if one fails
-                }
-            }
-        }
         
         return issueResponse.data;
     } catch (error: any) {
@@ -70,7 +52,7 @@ export const CreateIssue = async (issue: any) => {
 
 export const EditIssue = async (id: string, issue: any) => {
     try {
-        // Update the issue data first
+        // Update the issue data
         const issueData = {
             motorcycle_id: issue.motorcycle_id,
             description: issue.description,
@@ -79,28 +61,8 @@ export const EditIssue = async (id: string, issue: any) => {
             date_reported: issue.date_reported
         };
         
-        // Update the issue
-        const issueResponse = await axios.put(`${API_URL}/${id}`, issueData);
-        
-        // Add new photos if any
-        if (issue.photos && issue.photos instanceof FileList && issue.photos.length > 0) {
-            console.log(`Uploading ${issue.photos.length} photos for issue ${id}`);
-            
-            // Upload each photo with a separate request
-            for (let i = 0; i < issue.photos.length; i++) {
-                try {
-                    await UploadPhoto(
-                        parseInt(id), 
-                        issue.photos[i],
-                        issue.caption || ""
-                    );
-                } catch (photoError) {
-                    console.error(`Failed to upload photo ${i+1}:`, photoError);
-                    // Continue with next photo even if one fails
-                }
-            }
-        }
-        
+        // Update the issue using the authenticated instance
+        const issueResponse = await instance.put(`/${id}`, issueData);
         return issueResponse.data;
     } catch (error: any) {
         console.error("Error updating issue:", error);
@@ -118,16 +80,8 @@ export const DeleteIssue = async (id: string) => {
     try {
         console.log("Attempting to delete issue with ID:", id);
         
-        // Convert id to number if needed (some APIs require numeric IDs)
-        const numericId = parseInt(id);
-        
-        // Make sure API URL doesn't have trailing slash
-        const cleanUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
-        const deleteUrl = `${cleanUrl}/${id}`;
-        
-        console.log("Delete URL:", deleteUrl);
-        
-        const response = await axios.delete(deleteUrl);
+        // Use the authenticated instance for deletion
+        const response = await instance.delete(`/${id}`);
         console.log("Issue deletion response:", response.data);
         
         return response.data;

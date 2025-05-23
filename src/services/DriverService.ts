@@ -1,11 +1,13 @@
-// services/DriverService.ts
-import axios from 'axios';
+import GetInstanceAxios from '../components/authInstance';
 
 const API_URL = import.meta.env.VITE_BACKEND_API + "drivers";
 
+// Crear una instancia de axios configurada
+const instance = GetInstanceAxios({ API_URL });
+
 export const GetDrivers = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await instance.get('');
         console.log("Data recibida:", response.data);
         return response.data;
     } catch (error) {
@@ -17,7 +19,7 @@ export const GetDrivers = async () => {
 
 export const CreateDriver = async (driver: any) => {
     try {
-        const response = await axios.post(API_URL, driver);
+        const response = await instance.post('', driver);
         console.log("Conductor creado:", response.data);
         return response.data;
     } catch (error) {
@@ -27,13 +29,13 @@ export const CreateDriver = async (driver: any) => {
     }
 };
 
-// Modificado para aceptar string como ID
+// Modificado para aceptar string como ID y usar la instancia
 export const UpdateDriver = async (id: string, driver: any) => {
     try {
         // Convertimos el id a número si la API lo requiere
         const numericId = parseInt(id, 10);
         
-        const response = await axios.put(`${API_URL}/${numericId}`, driver);
+        const response = await instance.put(`/${numericId}`, driver);
         console.log("Conductor actualizado:", response.data);
         return response.data;
     } catch (error) {
@@ -43,13 +45,13 @@ export const UpdateDriver = async (id: string, driver: any) => {
     }
 };
 
-// Modificado para aceptar string como ID
+// Modificado para aceptar string como ID y usar la instancia
 export const DeleteDriver = async (id: string) => {
     try {
         // Convertimos el id a número si la API lo requiere
         const numericId = parseInt(id, 10);
         
-        const response = await axios.delete(`${API_URL}/${numericId}`);
+        const response = await instance.delete(`/${numericId}`);
         console.log("Conductor eliminado correctamente");
         return true;
     } catch (error) {

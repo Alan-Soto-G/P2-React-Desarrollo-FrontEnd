@@ -1,9 +1,13 @@
-import axios from 'axios';
+import GetInstanceAxios from '../components/authInstance';
+
 const API_URL = import.meta.env.VITE_BACKEND_API + "customers";
+
+// Crear una instancia de axios configurada
+const instance = GetInstanceAxios({ API_URL });
 
 export const GetCustomers = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await instance.get('');
         console.log("Data recibida:", response.data);
         return response.data;
     } catch (error) {
@@ -15,7 +19,7 @@ export const GetCustomers = async () => {
 
 export const CreateCustomer = async (customer: any) => {
     try {
-        const response = await axios.post(API_URL, customer);
+        const response = await instance.post('', customer);
         console.log("Cliente creado:", response.data);
         return response.data;
     } catch (error) {
@@ -27,7 +31,7 @@ export const CreateCustomer = async (customer: any) => {
 
 export const EditCustomer = async (id: string, customer: any) => {
     try {
-        const response = await axios.put(`${API_URL}/${id}`, customer);
+        const response = await instance.put(`/${id}`, customer);
         console.log("Cliente actualizado:", response.data);
         return response.data;
     } catch (error) {
@@ -39,7 +43,7 @@ export const EditCustomer = async (id: string, customer: any) => {
 
 export const DeleteCustomer = async (id: string) => {
     try {
-        const response = await axios.delete(`${API_URL}/${id}`);
+        const response = await instance.delete(`/${id}`);
         console.log("Cliente eliminado correctamente");
         return true;
     } catch (error) {

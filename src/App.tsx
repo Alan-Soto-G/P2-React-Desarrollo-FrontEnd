@@ -21,6 +21,8 @@ import PedidosMapa from "./pages/MapView";
 import Shifts from "./pages/Shifts"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InfringementsPage from "./pages/Sustentacion";
+
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -60,11 +62,11 @@ function App() {
       <AuthProvider>
         <Layout>
           <Routes>
+            <Route path="/infracciones" element={<InfringementsPage />} />
             <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/productos" element={<Products />} />
             <Route path="/conductores" element={<DriversPage />} />
-            <Route path="/graficos" element={<ChartsPage />} />
+            <Route path="/home" element={<ChartsPage />} />
             <Route path="/motocicletas" element={<MotorcyclesPage />} />
             <Route path="/restaurantes" element={<Restaurants />} />
             <Route path="/clientes" element={<Customer />} />
@@ -76,7 +78,7 @@ function App() {
             <Route path="/turnos" element={<Shifts />} />
           </Routes>
         </Layout>
-        <ToastContainer />
+        <ToastContainer position="bottom-right" />
       </AuthProvider>
     </BrowserRouter>
   );
