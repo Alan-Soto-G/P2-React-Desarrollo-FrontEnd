@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } from '../services/MotorcycleService.ts';
 import Table from "../components/tableCrud";
+import MotorcycleTable from "../components/MotorcycleTable";
+
 
 interface Motorcycle {
   id: number;
@@ -77,17 +79,7 @@ const MotorcyclesPage: React.FC = () => {
   return (
     <div className="table-container">
       <h1 id="title-products">Motocicletas</h1>
-      <Table
-        HeadList={headList}
-        ComplementTitle="Motocicleta"
-        Content={motorcycles}
-        Fields={fields}
-        ItemsArray={itemsArray}
-        UpdateTable={fetchMotorcycles}
-        Add={createMotorcycle}
-        Edit={updateMotorcycle}
-        Delete={deleteMotorcycle}
-      />
+      <MotorcycleTable motorcycles={motorcycles} />
     </div>
   );
 }
