@@ -163,7 +163,6 @@ const Table: React.FC<TableProps> = ({ HeadList, ComplementTitle, Content, Field
                     Add={Add} // Función para agregar un producto
                     Edit={Edit} // Función para editar un producto
                     Delete={Delete} // Función para eliminar un producto
-                    validationSchema={validationSchema} // Pasar el esquema de validación
                 />
             )}
         </div>

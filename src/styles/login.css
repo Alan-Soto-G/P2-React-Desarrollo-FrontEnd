@@ -3,6 +3,7 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
+    background-color: #000; /* <-- Esta línea evita que se vea el borde amarillo */
 }
 
 /* --------------------------------------------- */

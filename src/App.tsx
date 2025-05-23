@@ -21,6 +21,8 @@ import PedidosMapa from "./pages/MapView";
 import Shifts from "./pages/Shifts"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EmergentCrud from "./components/emergentCrud";
+import  Infringements  from "./pages/Infringement";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -74,6 +76,7 @@ function App() {
             <Route path="/inconvenientes" element={<Issue />} />
             <Route path="/mapa" element={<PedidosMapa />} />
             <Route path="/turnos" element={<Shifts />} />
+            <Route path="/infracciones" element={<Infringements/>}/>
           </Routes>
         </Layout>
         <ToastContainer />
