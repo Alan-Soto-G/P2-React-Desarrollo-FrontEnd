@@ -3,228 +3,258 @@ import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } 
 import Table from "../components/tableCrud";
 import { useNavigate } from 'react-router-dom';
 import EmergentCrud from '../components/emergentCrud';
-import { CreateInfringement, GetInfringements } from '../services/InfringementService.ts';
+import { GetInfringements, CreateInfringementMoto } from '../services/InfringementService';
 import * as Yup from 'yup';
 
-interface Motorcycle {
-  id: number;
-  license_plate: string;
-  brand: string;
-  year: number;
-  status: string;
-}
+interface MotoData {
+    id: number;
+    license_plate: string;
+    brand: string;
+    year: number;
+    status: string;
+};
 
-interface Infringement {
-  id: number;
-  name: string;
-}
+interface RuleViolation {
+    id: number;
+    name: string;
+};
 
-const dataHeaders = ["Placa", "Marca", "Año", "Estado", "Infracción"];
-const actionHeaders = ["Editar", "Eliminar"];
-const headList = [...dataHeaders, ...actionHeaders];
-const itemsArray = ["license_plate", "brand", "year", "status", "infraction_button"];
+const columnHeaders = ["Placa", "Marca", "Año", "Estado", "Infracción"];
+const actionCols = ["Editar", "Eliminar"];
+const headerStructure = [...columnHeaders, ...actionCols];
+const fieldKeys = ["license_plate", "brand", "year", "status", "infraction_btn"];
 
 const MotorcyclesPage: React.FC = () => {
-  const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
-  const [infringements, setInfringements] = useState<Infringement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showInfractionForm, setShowInfractionForm] = useState(false);
-  const [selectedMotorcycle, setSelectedMotorcycle] = useState<number | null>(null);
-  const navigate = useNavigate();
+    const [motos, setMotos] = useState<MotoData[]>([]);
+    const [violations, setViolations] = useState<RuleViolation[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [showViolationForm, setShowViolationForm] = useState<boolean>(false);
+    const [targetMoto, setTargetMoto] = useState<MotoData | null>(null);
+    const navigate = useNavigate();
 
-  // Configuración del formulario para motocicletas
-  const motorcycleFields = {
-    license_plate: {
-      type: 'text',
-      placeholder: 'Placa de la motocicleta',
-      validation: {
-        required: true,
-        minLength: 3,
-        maxLength: 10,
-        pattern: '^[A-Z0-9]+$',
-      },
-    },
-    brand: {
-      type: 'text',
-      placeholder: 'Marca de la motocicleta',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 30,
-      },
-    },
-    year: {
-      type: 'number',
-      placeholder: 'Año del modelo',
-      validation: {
-        required: true,
-        min: 190,
-        max: new Date().getFullYear() + 1,
-      },
-    },
-    status: {
-      type: 'select',
-      placeholder: 'Estado de la motocicleta',
-      validation: {
-        required: true,
-      },
-      options: [
-        { label: 'Disponible', value: 'available' },
-        { label: 'En mantenimiento', value: 'maintenance' },
-        { label: 'En uso', value: 'in_use' },
-        { label: 'Fuera de servicio', value: 'out_of_service' },
-      ],
-    },
-  };
-
-  // Validación para formulario de infracción
-  const infractionValidationSchema = Yup.object({
-    infringement_type: Yup.string().required('El tipo de infracción es obligatorio'),
-    date: Yup.string()
-      .required('La fecha y hora son obligatorias')
-      .test(
-        'not-future',
-        'La fecha no puede ser en el futuro',
-        value => {
-          if (!value) return true;
-          return new Date(value) <= new Date();
+    const formFields = {
+        license_plate: {
+            type: 'text',
+            placeholder: 'Placa de la motocicleta',
+            validation: {
+                required: true,
+                minLength: 3,
+                maxLength: 10,
+                pattern: '^[A-Z0-9]+$'
+            }
+        },
+        brand: {
+            type: 'text',
+            placeholder: 'Marca de la motocicleta',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 30
+            }
+        },
+        year: {
+            type: 'number',
+            placeholder: 'Año del modelo',
+            validation: {
+                required: true,
+                min: 190,
+                max: new Date().getFullYear() + 1
+            }
+        },
+        status: {
+            type: 'select',
+            placeholder: 'Estado de la motocicleta',
+            validation: {
+                required: true
+            },
+            options: [
+                { label: 'Disponible', value: 'available' },
+                { label: 'En mantenimiento', value: 'maintenance' },
+                { label: 'En uso', value: 'in_use' },
+                { label: 'Fuera de servicio', value: 'out_of_service' }
+            ]
         }
-      ),
-  });
-
-  // Obtener infracciones y poblar el formulario
-  useEffect(() => {
-    const fetchInfringements = async () => {
-      try {
-        const result = await GetInfringements();
-        if (result) setInfringements(result);
-      } catch (err) {
-        console.error('Error al cargar tipos de infracción:', err);
-      }
     };
-    fetchInfringements();
-  }, []);
 
-  // Opciones para select de tipo de infracción
-  const infringementOptions = infringements.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+    useEffect(() => {
+        const fetchViolations = async () => {
+            try {
+                const res = await GetInfringements();
+                if (res) setViolations(res);
+            } catch (err) {
+                console.error('Error al cargar infracciones:', err);
+            }
+        };
 
-  const infractionFields = {
-    infringement_type: {
-      type: 'select',
-      placeholder: 'Tipo de infracción',
-      options: infringementOptions,
-      validation: { required: true },
-    },
-    date: {
-      type: 'datetime-local',
-      placeholder: 'Fecha y hora de la infracción',
-      validation: { required: true },
-    },
-  };
+        fetchViolations();
+    }, []);
 
-  // Cargar motocicletas
-  const fetchMotorcycles = async () => {
-    try {
-      const response = await getMotorcycles();
-      if (response) {
-        const withButtons = response.map((moto: Motorcycle) => ({
-          ...moto,
-          infraction_button: moto.id,
-        }));
-        setMotorcycles(withButtons);
-      }
-    } catch (err) {
-      console.error('Error al cargar motocicletas:', err);
-    } finally {
-      setLoading(false);
+    const violationChoices = violations.map(item => ({
+        value: item.id,
+        label: item.name
+    }));
+
+    // Aquí está el arreglo clave: placa y año como inputs de tipo text con readOnly true
+    const violationFields = {
+        license_plate: {
+            type: 'text',  // 'readonly' no es tipo válido para input
+            placeholder: 'Placa',
+            readOnly: true,
+        },
+        year: {
+            type: 'text',  // mostramos como texto y readonly
+            placeholder: 'Año',
+            readOnly: true,
+        },
+        infringement_type: {
+            type: 'select',
+            placeholder: 'Tipo de infracción',
+            options: violationChoices,
+            validation: {
+                required: true
+            }
+        },
+        date: {
+            type: 'datetime-local',
+            placeholder: 'Fecha y hora de la infracción',
+            validation: {
+                required: true
+            }
+        }
+    };
+
+    const validationForViolation = Yup.object({
+        infringement_type: Yup.string()
+            .required('El tipo de infracción es obligatorio'),
+        date: Yup.string()
+            .required('La fecha y hora son obligatorias')
+            .test(
+                'not-future',
+                'La fecha no puede ser en el futuro',
+                val => {
+                    if (!val) return true;
+                    return new Date(val) <= new Date();
+                }
+            )
+    });
+
+    const loadMotos = async () => {
+        try {
+            const data = await getMotorcycles();
+            if (data) {
+                interface MotoWithButton extends MotoData {
+                    infraction_btn: number;
+                }
+
+                const modifiedData: MotoWithButton[] = data.map((item: MotoData) => ({
+                    ...item,
+                    infraction_btn: item.id
+                }));
+
+                setMotos(modifiedData);
+            }
+            setIsLoading(false);
+        } catch (e) {
+            console.error('Error al obtener motos:', e);
+            setIsLoading(false);
+        }
+    };
+
+    const launchViolationForm = (id: number) => {
+        const moto = motos.find(m => m.id === id) || null;
+        setTargetMoto(moto);
+        setShowViolationForm(true);
+    };
+
+    const closeViolationModal = (e: React.MouseEvent) => {
+        if (e.target === e.currentTarget) {
+            setShowViolationForm(false);
+        }
+    };
+
+    const saveViolation = async (formData: any) => {
+        try {
+            const payload = {
+                ...formData,
+                motorcycle_id: targetMoto?.id
+            };
+
+            const res = await CreateInfringementMoto(payload);
+            if (res) {
+                setShowViolationForm(false);
+                alert("Infracción registrada con éxito");
+            }
+            return res;
+        } catch (err) {
+            console.error("Error al registrar infracción:", err);
+            return null;
+        }
+    };
+
+    const buttonRenderer = {
+        infraction_btn: (_: any, row: MotoData) => (
+            <button
+                className="infraction-button"
+                onClick={() => launchViolationForm(row.id)}
+                style={{
+                    backgroundColor: '#ff4d4d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    cursor: 'pointer'
+                }}
+            >
+                🚨 Infracción
+            </button>
+        )
+    };
+
+    useEffect(() => {
+        loadMotos();
+    }, []);
+
+    if (isLoading) {
+        return <div className="loading-indicator">Cargando...</div>;
     }
-  };
 
-  // Mostrar formulario de infracción
-  const handleCreateInfraction = (motoId: number) => {
-    setSelectedMotorcycle(motoId);
-    setShowInfractionForm(true);
-  };
+    return (
+        <div className="table-container">
+            <h1 id="title-products">Motocicletas</h1>
+            <Table
+                HeadList={headerStructure}
+                ComplementTitle="Motocicleta"
+                Content={motos}
+                Fields={formFields}
+                ItemsArray={fieldKeys}
+                UpdateTable={loadMotos}
+                Add={createMotorcycle}
+                Edit={updateMotorcycle}
+                Delete={deleteMotorcycle}
+                customRender={buttonRenderer}
+            />
 
-  const handleCloseInfractionForm = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      setShowInfractionForm(false);
-    }
-  };
-
-  const handleSubmitInfraction = async (formValues: any) => {
-    try {
-      const payload = {
-        ...formValues,
-        motorcycle_id: selectedMotorcycle,
-      };
-      const result = await CreateInfringement(payload);
-      if (result) {
-        setShowInfractionForm(false);
-        alert('Infracción creada correctamente');
-      }
-      return result;
-    } catch (err) {
-      console.error('Error al crear infracción:', err);
-      return null;
-    }
-  };
-
-  // Render personalizado para columna de infracción
-  const customRender = {
-    infraction_button: (value: any) => ({
-      __html: `<button class="infraction-button" onclick="document.dispatchEvent(new CustomEvent('createInfraction', {detail: ${value}}))">Prueba infraccion</button>`,
-    }),
-  };
-
-  // Evento personalizado para abrir el formulario emergente
-  useEffect(() => {
-    const listener = (e: CustomEvent) => handleCreateInfraction(e.detail);
-    document.addEventListener('createInfraction', listener as EventListener);
-    return () => document.removeEventListener('createInfraction', listener as EventListener);
-  }, []);
-
-  useEffect(() => { fetchMotorcycles(); }, []);
-
-  if (loading) return <div className="loading-indicator">Cargando...</div>;
-
-  return (
-    <div className="table-container">
-      <h1 id="title-products">Motocicletas</h1>
-      <Table
-        HeadList={headList}
-        ComplementTitle="Motocicleta"
-        Content={motorcycles}
-        Fields={motorcycleFields}
-        ItemsArray={itemsArray}
-        UpdateTable={fetchMotorcycles}
-        Add={createMotorcycle}
-        Edit={updateMotorcycle}
-        Delete={deleteMotorcycle}
-        customRender={customRender}
-      />
-
-      {showInfractionForm && (
-        <EmergentCrud
-          Title="Crear Infracción"
-          Fields={infractionFields}
-          TextButton="Crear Infracción ✅"
-          EmergentType={1}
-          Id={null}
-          initialData={{ motorcycle_id: selectedMotorcycle?.toString() || '' }}
-          UpdateTable={() => {}}
-          Add={handleSubmitInfraction}
-          Edit={() => {}}
-          Delete={() => {}}
-          handleBackgroundClick={handleCloseInfractionForm}
-          validationSchema={infractionValidationSchema}
-        />
-      )}
-    </div>
-  );
+            {showViolationForm && targetMoto && (
+                <EmergentCrud
+                    Title="Crear Infracción"
+                    Fields={violationFields}
+                    TextButton="Crear Infracción✅"
+                    EmergentType={1}
+                    Id={null}
+                    initialData={{
+                        license_plate: targetMoto.license_plate,
+                        year: targetMoto.year.toString() // convertir a string porque formData es {[key:string]:string}
+                    }}
+                    UpdateTable={() => { }}
+                    Add={saveViolation}
+                    Edit={() => { }}
+                    Delete={() => { }}
+                    handleBackgroundClick={closeViolationModal}
+                    validationSchema={validationForViolation}
+                />
+            )}
+        </div>
+    );
 };
 
 export default MotorcyclesPage;

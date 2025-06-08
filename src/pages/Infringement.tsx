@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { GetInfringements, GetInfringementsMoto, CreateInfringement} from '../services/InfringementService';
+import { 
+    GetInfringements, 
+    GetInfringementsMoto, 
+    CreateInfringementMoto, 
+    DeleteInfringementMoto, 
+    EditInfringementMoto 
+} from '../services/InfringementService';
 import Table from "../components/tableCrud";
 import { toast } from 'react-toastify';
 
@@ -25,18 +31,15 @@ const InfringementsPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [infringementsMoto, setInfringementsMoto] = useState<InfringementMoto[]>([]);
 
-    // Carga las infracciones 
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Cargar infracciones
                 const infrData = await GetInfringements();
                 if (infrData) setInfringements(infrData);
-                
-                // Cargar infracciones de moto
+
                 const motoData = await GetInfringementsMoto();
                 if (motoData) setInfringementsMoto(motoData);
-                
+
                 setLoading(false);
             } catch (error) {
                 console.error('Error cargando datos:', error);
@@ -44,17 +47,26 @@ const InfringementsPage: React.FC = () => {
                 toast.error('Error al cargar datos necesarios');
             }
         };
-        
+
         loadData();
     }, []);
 
-    
     const infringementOptions = infringements.map(infringement => ({
         value: infringement.id,
         label: `${infringement.name}`
     }));
 
     const fields = {
+        plate: {
+            type: 'text',
+            placeholder: 'Placa',
+            readOnly: true,
+        },
+        name: {
+            type: 'text',
+            placeholder: 'Nombre de la moto',
+            readOnly: true,
+        },
         infringement_type: {
             type: 'select',
             placeholder: 'Tipo de infracción',
@@ -64,7 +76,7 @@ const InfringementsPage: React.FC = () => {
             }
         },
         date: {
-            type: 'datetime-local', 
+            type: 'datetime-local',
             placeholder: 'Fecha y hora de la infracción',
             validation: {
                 required: true
@@ -86,27 +98,37 @@ const InfringementsPage: React.FC = () => {
         return <div className="loading-indicator">Cargando datos...</div>;
     }
 
-    // Sonido de notificación al crear una infracción
-    const handleCreate = async (data: any) => {
-        const result = await CreateInfringement(data);
-        if (result) {
-            // Reproducir sonido de notificación
-            const audio = new Audio('public/sounds/notification.mp3');
-            audio.play();
-            
-            toast.success('✅ Infracción registrada correctamente');
+    const handleAdd = async (data: any) => {
+        try {
+            const newInfringement = await CreateInfringementMoto(data);
+            toast.success("Infracción creada correctamente");
+
+            // Actualizar lista con fetch completo para evitar inconsistencias
+            await fetchInfringements();
+
+        } catch (error) {
+            toast.error("Error al crear infracción");
         }
-        return result;
     };
 
-    // Función vacía para editar
-    const handleEdit = async (data: any) => {
-        return null;
+    const handleEdit = async (id: any, data: any) => {
+        try {
+            const updated = await EditInfringementMoto(id, data);
+            toast.success("Infracción actualizada correctamente");
+            setInfringementsMoto(prev => prev.map(item => item.id === id ? updated : item));
+        } catch (error) {
+            toast.error("Error al actualizar infracción");
+        }
     };
 
-    // Función vacía para eliminar
     const handleDelete = async (id: any) => {
-        return null;
+        try {
+            await DeleteInfringementMoto(id);
+            toast.success("Infracción eliminada correctamente");
+            setInfringementsMoto(prev => prev.filter(item => item.id !== id));
+        } catch (error) {
+            toast.error("Error al eliminar infracción");
+        }
     };
 
     return (
@@ -119,13 +141,12 @@ const InfringementsPage: React.FC = () => {
                 Fields={fields}
                 ItemsArray={itemsArray}
                 UpdateTable={fetchInfringements}
-                Add={handleCreate}
+                Add={handleAdd}
                 Edit={handleEdit}
                 Delete={handleDelete}
             />
         </div>
     );
-}
+};
 
 export default InfringementsPage;
-

@@ -1,45 +1,42 @@
-// Importamos cosas necesarias para este componente
-import React, { useState, useEffect } from "react"; // React y dos funciones especiales: useState (para guardar datos), useEffect (para hacer algo cuando cambia algo)
-import * as Yup from 'yup'; // Yup sirve para revisar si los datos están bien escritos, como si fuera un maestro que revisa tu tarea
-import "../styles/emergentCrud.css" // Esto trae los colores y estilos bonitos para este componente
-import Lottie from "lottie-react"; // Lottie nos permite poner animaciones bonitas
-import DeleteDanger from "../assets/delete-danger-animation.json" // Esta es una animación que muestra peligro al borrar algo
+import React, { useState, useEffect } from "react";
+import * as Yup from 'yup';
+import "../styles/emergentCrud.css"
+import Lottie from "lottie-react";
+import DeleteDanger from "../assets/delete-danger-animation.json"
 
-// Esta parte dice cómo deben ser los "campos" (inputs) que le pasamos al formulario
 interface FieldConfig {
-    type: string; // Tipo de input: texto, número, fecha, etc.
-    placeholder: string; // Texto que se muestra cuando el campo está vacío
-    validation?: { // Opciones para validar lo que escribe el usuario
+    type: string;
+    placeholder: string;
+    validation?: {
         maxLength?: number;
         minLength?: number;
         max?: number;
         min?: number;
-        required?: boolean; // Si es obligatorio
-        pattern?: string; // Si debe seguir un patrón (como solo letras o números)
+        required?: boolean;
+        pattern?: string;
     };
-    options?: Array<{ // Para los campos tipo "select", una lista de opciones
-        label: string; // Lo que ve el usuario
-        value: string | number; // El valor real
+    options?: Array<{
+        label: string;
+        value: string | number;
     }>;
+    readOnly?: boolean;
 }
 
-// Estas son todas las cosas que le podemos enviar a este componente
 interface EmergentCrudProps {
     Id: any;
-    Title: string; // El título de la ventana emergente
-    Fields: { [key: string]: FieldConfig }; // Todos los campos que tendrá el formulario
-    TextButton: string; // Lo que dirá el botón (Guardar, Editar, etc)
-    EmergentType: number; // Tipo de ventana: 1 es agregar, 2 es editar, 3 es eliminar
-    initialData?: { [key: string]: string }; // Datos que ya existen si estamos editando
-    UpdateTable: () => void; // Función que se llama cuando se actualiza la tabla
-    Add: (product: any) => void; // Agrega algo nuevo
-    Edit: (id: string, product: any) => void; // Cambia algo que ya existe
-    Delete: (id: string) => void; // Borra algo
-    handleBackgroundClick: (e: React.MouseEvent) => void; // Si haces clic fuera de la ventana, se cierra
-    validationSchema?: Yup.ObjectSchema<any>; // Esquema de validación, para saber si los datos están bien
+    Title: string;
+    Fields: { [key: string]: FieldConfig };
+    TextButton: string;
+    EmergentType: number;
+    initialData?: { [key: string]: string };
+    UpdateTable: () => void;
+    Add: (product: any) => void;
+    Edit: (id: string, product: any) => void;
+    Delete: (id: string) => void;
+    handleBackgroundClick: (e: React.MouseEvent) => void;
+    validationSchema?: Yup.ObjectSchema<any>;
 }
 
-// Ahora creamos el componente. Aquí empieza la función principal
 const EmergentCrud: React.FC<EmergentCrudProps> = ({
     Title,
     Fields,
@@ -54,56 +51,50 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
     initialData,
     validationSchema
 }) => {
-    const [formData, setFormData] = useState<{ [key: string]: string }>({}); // Guardamos lo que escribe el usuario
-    const [errors, setErrors] = useState<{ [key: string]: string }>({}); // Guardamos errores si el usuario escribe mal algo
+    const [formData, setFormData] = useState<{ [key: string]: string }>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-    // Elegimos color del botón dependiendo de si vamos a agregar, editar o eliminar
     const classButton = EmergentType === 1 ? "bg-green"
         : EmergentType === 2 ? "bg-blue"
         : "bg-red";
 
-    // Este useEffect se usa para llenar el formulario si vamos a editar algo
     useEffect(() => {
-        if (EmergentType === 2 && initialData) {
-            setFormData(initialData); // Llenamos el formulario con datos ya existentes
+        if ((EmergentType === 1 || EmergentType === 2) && initialData) {
+            setFormData(initialData);
         }
     }, [EmergentType, initialData]);
 
-    // Esta función se llama cuando hacemos clic en el botón
     const handleSubmit = async () => {
-        if (validationSchema) { // Si tenemos reglas para revisar...
+        if (validationSchema) {
             try {
-                await validationSchema.validate(formData, { abortEarly: false }); // Revisamos todos los campos
-                setErrors({}); // No hay errores
+                await validationSchema.validate(formData, { abortEarly: false });
+                setErrors({});
             } catch (yupError) {
                 if (yupError instanceof Yup.ValidationError) {
-                    const newErrors: { [key: string]: string } = {}; // Guardamos los errores de cada campo
+                    const newErrors: { [key: string]: string } = {};
                     yupError.inner.forEach(err => {
                         if (err.path) {
-                            newErrors[err.path] = err.message; // Ponemos el mensaje de error
+                            newErrors[err.path] = err.message;
                         }
                     });
-                    setErrors(newErrors); // Mostramos los errores
-                    return; // No seguimos si hay errores
+                    setErrors(newErrors);
+                    return;
                 }
             }
         }
 
         try {
-            // Según lo que se quiere hacer (agregar, editar o borrar), llamamos a la función correcta
             switch (EmergentType) {
                 case 1:
-                    await Add(formData); // Agrega los datos
+                    await Add(formData);
                     break;
                 case 2:
-                    await Edit(Id, formData); // Edita los datos
+                    await Edit(Id, formData);
                     break;
                 case 3:
-                    await Delete(Id); // Borra
+                    await Delete(Id);
                     break;
             }
-
-            // Si todo salió bien, actualizamos la tabla y cerramos la ventana
             UpdateTable();
             if (handleBackgroundClick) {
                 handleBackgroundClick({
@@ -112,34 +103,42 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
                 } as any);
             }
         } catch (error) {
-            console.error("Error al realizar la operación:", error); // Mostramos el error si algo falló
+            console.error("Error al realizar la operación:", error);
         }
     };
 
-    // Esta función se llama cuando escribimos algo en un input
     const handleInputChange = (key: string, value: string) => {
         setFormData(prev => ({
-            ...prev,        // Conservamos lo anterior
-            [key]: value    // Cambiamos solo el campo modificado
+            ...prev,
+            [key]: value
         }));
     };
 
-    // Aquí empieza lo que se muestra en pantalla
     return (
-        <div id="emergent-crud" onClick={handleBackgroundClick}> {/* Si haces clic fuera, se cierra */}
-            <div id="card"> {/* La tarjetita que se muestra */}
+        <div id="emergent-crud" onClick={handleBackgroundClick}>
+            <div id="card">
                 <h1>{Title}</h1>
 
                 {(EmergentType === 1 || EmergentType === 2) ? (
                     Object.entries(Fields).map(([key, field], index) => (
                         <div key={index} className="fields">
-                            {field.type === "select" ? (
-                                <> {/* Si el campo es de tipo "select" (una lista de opciones) */}
+                            <label htmlFor={key}>{field.placeholder}</label>
+                            {field.readOnly ? (
+                                <input
+                                    type="text"
+                                    value={formData[key] || ''}
+                                    id={key}
+                                    disabled
+                                    className="readonly-input"
+                                />
+                            ) : field.type === "select" ? (
+                                <>
                                     <select
                                         onChange={(e) => handleInputChange(key, e.target.value)}
                                         value={formData[key] || ''}
                                         id={key}
                                         className={`select-dropdown ${errors[key] ? 'error' : ''}`}
+                                        disabled={field.readOnly}
                                     >
                                         <option value="">-- Seleccione {field.placeholder} --</option>
                                         {field.options?.map((option, i) => (
@@ -151,7 +150,7 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
                                     {errors[key] && <div className="error-message">{errors[key]}</div>}
                                 </>
                             ) : (
-                                <> {/* Si el campo es un input normal (texto, número, etc.) */}
+                                <>
                                     <input
                                         onChange={(e) => handleInputChange(key, e.target.value)}
                                         value={formData[key] || ''}
@@ -159,6 +158,7 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
                                         id={key}
                                         placeholder={field.placeholder}
                                         className={errors[key] ? 'error' : ''}
+                                        readOnly={field.readOnly || false}
                                     />
                                     {errors[key] && <div className="error-message">{errors[key]}</div>}
                                 </>
@@ -166,7 +166,7 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
                         </div>
                     ))
                 ) : (
-                    <div id="icon-danger-delete"> {/* Si vamos a eliminar, mostramos una animación de peligro */}
+                    <div id="icon-danger-delete">
                         <Lottie
                             animationData={DeleteDanger}
                             loop
@@ -175,10 +175,8 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
                         <b id="text-alert"> ¿Estás segur@ de eliminar el registro?</b>
                     </div>
                 )}
-                <button
-                    className={classButton}
-                    onClick={handleSubmit} // Cuando hacen clic, mandamos el formulario
-                >
+
+                <button className={classButton} onClick={handleSubmit}>
                     {TextButton}
                 </button>
             </div>
@@ -186,5 +184,4 @@ const EmergentCrud: React.FC<EmergentCrudProps> = ({
     );
 };
 
-// Exportamos el componente para usarlo en otras partes del proyecto
 export default EmergentCrud;

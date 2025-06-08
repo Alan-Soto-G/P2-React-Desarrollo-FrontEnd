@@ -3,7 +3,7 @@ import { getMotorcycles, createMotorcycle, updateMotorcycle, deleteMotorcycle } 
 import Table from "../components/tableCrud";
 import { useNavigate } from 'react-router-dom';
 import EmergentCrud from '../components/emergentCrud';
-import { GetInfringements, CreateInfringement } from '../services/InfringementService';
+import { GetInfringements, CreateInfringementMoto } from '../services/InfringementService';
 import * as Yup from 'yup';
 
 interface MotoData {
@@ -167,7 +167,7 @@ const MotorcyclesPage: React.FC = () => {
                 motorcycle_id: targetMoto
             };
 
-            const res = await CreateInfringement(payload);
+            const res = await CreateInfringementMoto(payload);
             if (res) {
                 setShowViolationForm(false);
                 alert("Infracción registrada con éxito");
@@ -180,23 +180,23 @@ const MotorcyclesPage: React.FC = () => {
     };
 
     const buttonRenderer = {
-        infraction_btn: (val: any) => {
-            return {
-                __html: `<button class="infraction-button" onclick="document.dispatchEvent(new CustomEvent('triggerViolation', {detail: ${val}}))">🚨 Infracción</button>`
-            };
-        }
+        infraction_btn: (_: any, row: MotoData) => (
+            <button
+                className="infraction-button"
+                onClick={() => launchViolationForm(row.id)}
+                style={{
+                    backgroundColor: '#ff4d4d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '6px 12px',
+                    cursor: 'pointer'
+                }}
+            >
+                🚨 Infracción
+            </button>
+        )
     };
-
-    useEffect(() => {
-        const violationEvent = (e: CustomEvent) => {
-            launchViolationForm(e.detail);
-        };
-
-        document.addEventListener('triggerViolation', violationEvent as EventListener);
-        return () => {
-            document.removeEventListener('triggerViolation', violationEvent as EventListener);
-        };
-    }, []);
 
     useEffect(() => {
         loadMotos();
